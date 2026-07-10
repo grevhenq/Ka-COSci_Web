@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ka-COSci Web | College of Science Student Council - CLSU, Inc.</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom Tailwind Configuration & Styles -->
+    <style>
+        :root {
+            /* Teal, Blue Green & White Theme Variables */
+            --clsu-green-dark: #0f766e; /* Teal 700 */
+            --clsu-green: #0d9488;      /* Teal 600 */
+            --clsu-gold: #06b6d4;       /* Cyan 500 */
+            --clsu-gold-light: #67e8f9; /* Cyan 200 */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+            overflow-y: scroll;
+        }
+
+        h1, h2, h3, h4, h5, .font-display, .nav-link { 
+            font-family: 'Outfit', sans-serif; 
+        }
+
+        /* Executive Header - Adapted for Teal Theme */
+        .executive-header {
+            background-color: #115e59; /* Teal 800 */
+            background-image: 
+                radial-gradient(at 0% 0%, #0f766e 0, transparent 60%), 
+                radial-gradient(at 100% 0%, #134e4a 0, transparent 60%),
+                radial-gradient(at 50% 100%, #0d9488 0, transparent 100%);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .executive-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 35px 35px;
+            pointer-events: none;
+        }
+
+        /* Navigation Styles */
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: #64748B;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--clsu-green);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--clsu-gold);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Cards and Elements */
+        .portal-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 1.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--clsu-green);
+            box-shadow: 0 20px 25px -5px rgba(13, 148, 136, 0.1), 0 8px 10px -6px rgba(13, 148, 136, 0.1);
+        }
+
+        .sub-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #64748B;
+            background: #F1F5F9;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .sub-tab:hover {
+            background: #E2E8F0;
+        }
+
+        .sub-tab.active {
+            background: var(--clsu-green-dark);
+            color: #FFFFFF;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Decorative accents */
+        .gold-accent { color: var(--clsu-gold); }
+        .bg-gold-accent { background-color: var(--clsu-gold); }
+        .border-gold-accent { border-color: var(--clsu-gold); }
+
+        /* Animation utilities */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Hide pages by default */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .sub-section { display: none; }
+        .sub-section.active { display: block; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="nav-glass fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo / Brand -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-teal-800 flex items-center justify-center text-white shadow-lg border-2 border-white">
+                    <!-- Eagle Head SVG Logo -->
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-1">
+                        <path d="M22 6c-3-2-6-2-9-1-1.5.5-3 1.5-4 3-2 3-2 6 0 9l-5 4c2-1 4-1 6-1h1c3 1 7 1 9-2 2-3 2-6 0-9 1 0 2-1 2-3z"/>
+                        <circle cx="14" cy="8" r="1.5" fill="#0f766e"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-lg leading-tight text-slate-800">Ka-COSci <span class="text-teal-600">Web</span></h1>
+                    <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">College of Science</p>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex gap-8">
+                <button class="nav-link active uppercase text-xs tracking-wider" onclick="navigate('home')">Home</button>
+                <button class="nav-link uppercase text-xs tracking-wider" onclick="navigate('student-life')">Student Life</button>
+                <button class="nav-link uppercase text-xs tracking-wider" onclick="navigate('college')">The College</button>
+                <button class="nav-link uppercase text-xs tracking-wider" onclick="navigate('transparency')">Transparency</button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-slate-600 hover:text-teal-700 text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="pt-20 min-h-screen flex flex-col">
+        
+        <!-- ================= HOME PAGE ================= -->
+        <section id="page-home" class="page-section active flex-grow">
+            <header class="executive-header text-white py-32 flex-grow flex flex-col justify-center min-h-[80vh]">
+                <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-8">
+                        <div class="w-2 h-2 bg-cyan-400 rounded-full mr-3 animate-pulse"></div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-cyan-100">Central Luzon State University</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-display font-black mb-6 leading-tight">
+                        College of Science <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-300">Student Council - CLSU, Inc.</span>
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-teal-100 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                        Welcome to the Ka-COSci Web! Empowering the scientific minds of tomorrow. We are the official student government of the College of Science, dedicated to service, integrity, and excellence.
+                    </p>
+
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button onclick="navigate('student-life')" class="px-8 py-4 bg-teal-600 hover:bg-teal-500 text-white rounded-full font-bold uppercase tracking-wider text-sm transition-all shadow-lg hover:shadow-teal-500/30">
+                            Explore Student Life
+                        </button>
+                        <button onclick="navigate('college')" class="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white rounded-full font-bold uppercase tracking-wider text-sm transition-all backdrop-blur-md">
+                            The College
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Home Page Dynamic Links & Announcements -->
+            <div class="max-w-7xl mx-auto px-6 py-20">
+                <!-- Page Links Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <div onclick="navigate('student-life')" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 hover:border-teal-500 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                        <div class="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-users"></i></div>
+                        <h3 class="font-display font-bold text-xl text-slate-800 mb-2">Student Life</h3>
+                        <p class="text-sm text-slate-500">Explore CSSC, Talons, and Councils.</p>
+                    </div>
+                    
+                    <div onclick="navigate('college')" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 hover:border-teal-500 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                        <div class="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-building-columns"></i></div>
+                        <h3 class="font-display font-bold text-xl text-slate-800 mb-2">The College</h3>
+                        <p class="text-sm text-slate-500">Meet the Administration & Departments.</p>
+                    </div>
+
+                    <div onclick="navigate('transparency')" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 hover:border-teal-500 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                        <div class="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <h3 class="font-display font-bold text-xl text-slate-800 mb-2">Transparency</h3>
+                        <p class="text-sm text-slate-500">Access documents and financial reports.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Announcements Section -->
+                    <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                        <div class="flex items-center justify-between mb-8">
+                            <h3 class="font-display font-black text-2xl text-slate-800 flex items-center gap-3">
+                                <i class="fa-solid fa-bullhorn text-teal-600"></i> Latest Announcement
+                            </h3>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-bold uppercase tracking-widest rounded-full">New</span>
+                        </div>
+                        
+                        <!-- Mock Facebook Post -->
+                        <div class="border border-slate-100 rounded-2xl overflow-hidden bg-slate-50 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="p-5 flex items-center gap-4 border-b border-slate-100 bg-white">
+                                <div class="w-12 h-12 rounded-full bg-teal-600 flex items-center justify-center text-white border-2 border-teal-100 shadow-sm">
+                                    <!-- Embedded Eagle Vector inside post -->
+                                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 ml-1">
+                                        <path d="M22 6c-3-2-6-2-9-1-1.5.5-3 1.5-4 3-2 3-2 6 0 9l-5 4c2-1 4-1 6-1h1c3 1 7 1 9-2 2-3 2-6 0-9 1 0 2-1 2-3z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800 hover:underline cursor-pointer"><a href="https://www.facebook.com/clsu.cssc" target="_blank">College of Science Student Council - CLSU, Inc.</a></h4>
+                                    <p class="text-xs text-slate-500 font-medium">Just now • <i class="fa-solid fa-earth-asia ml-1"></i></p>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                                    📢 <span class="font-bold text-teal-700">Ka-COSci!</span> The College of Science Student Council officially welcomes you to the new academic year. Let us all strive for academic excellence and proactive student involvement! 🦅✨<br><br>
+                                    Stay tuned for upcoming activities and initiatives designed to empower every science student. Don't forget to join our official groups and follow our pages for the latest updates.
+                                </p>
+                                <div class="w-full h-72 bg-teal-900 rounded-xl overflow-hidden relative border border-slate-200">
+                                    <!-- Post Image Placeholder -->
+                                    <img src="https://placehold.co/800x600/0f766e/ffffff?text=Welcome+Ka-COSci!+🦅" alt="Announcement Image" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="p-4 bg-white border-t border-slate-100 flex items-center justify-between">
+                                <div class="flex items-center gap-4 text-slate-500">
+                                    <button class="flex items-center gap-2 hover:text-teal-600 text-sm font-medium transition-colors"><i class="fa-regular fa-thumbs-up"></i> Like</button>
+                                    <button class="flex items-center gap-2 hover:text-teal-600 text-sm font-medium transition-colors"><i class="fa-regular fa-comment"></i> Comment</button>
+                                </div>
+                                <a href="https://www.facebook.com/clsu.cssc" target="_blank" class="text-teal-600 text-sm font-bold hover:text-teal-700 flex items-center gap-2">
+                                    View Full Post <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COSmmunity Link Card -->
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-gradient-to-br from-teal-600 to-cyan-600 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden group h-full flex flex-col justify-center">
+                            <!-- Background pattern -->
+                            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+                            
+                            <i class="fa-brands fa-facebook absolute -bottom-8 -right-8 text-9xl opacity-10 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500"></i>
+                            
+                            <div class="relative z-10">
+                                <div class="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-white text-3xl mb-6 shadow-sm border border-white/20">
+                                    <i class="fa-solid fa-users-rays"></i>
+                                </div>
+                                <h3 class="font-display font-black text-3xl mb-3 leading-tight">Join the<br>COSmmunity!</h3>
+                                <p class="text-teal-50 text-sm mb-8 leading-relaxed">
+                                    Connect with your fellow Ka-COSci! Share ideas, ask questions, and stay updated with exclusive discussions in our official Facebook Group.
+                                </p>
+                                <a href="https://www.facebook.com/groups/clsucosmmunity" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-white text-teal-800 px-6 py-4 rounded-xl font-black uppercase tracking-wider text-sm hover:bg-teal-50 hover:shadow-lg hover:-translate-y-1 transition-all">
+                                    Join Group Now <i class="fa-brands fa-facebook text-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STUDENT LIFE PAGE ================= -->
+        <section id="page-student-life" class="page-section bg-slate-50 min-h-screen pb-20">
+            <div class="bg-teal-900 pt-20 pb-24 border-b-4 border-cyan-500">
+                <div class="max-w-7xl mx-auto px-6 text-center">
+                    <h2 class="text-4xl font-display font-black text-white mb-4">Student Life</h2>
+                    <p class="text-teal-200">Discover your community, leadership, and publications.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 -mt-10">
+                <!-- Sub Navigation -->
+                <div class="bg-white rounded-2xl shadow-lg p-3 flex flex-wrap gap-2 justify-center border border-slate-100 mb-10">
+                    <button class="sub-tab active" onclick="switchSubTab('student-life', 'cssc')">The CSSC</button>
+                    <button class="sub-tab" onclick="switchSubTab('student-life', 'talons')">The Talons</button>
+                    <button class="sub-tab" onclick="switchSubTab('student-life', 'councils')">Department Councils</button>
+                </div>
+
+                <!-- Sub-sections container -->
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12">
+                    
+                    <!-- THE CSSC -->
+                    <div id="sub-cssc" class="sub-section active fade-in">
+                        <!-- Message of the Governor -->
+                        <div class="mb-16 bg-gradient-to-br from-teal-50 to-slate-50 rounded-2xl p-8 border border-teal-100 relative overflow-hidden">
+                            <i class="fa-solid fa-quote-right absolute -top-4 -right-4 text-9xl text-teal-500 opacity-5"></i>
+                            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                                <div class="w-32 h-32 rounded-full bg-teal-200 flex-shrink-0 flex items-center justify-center border-4 border-white shadow-lg overflow-hidden">
+                                    <i class="fa-solid fa-user-tie text-5xl text-teal-700"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold uppercase tracking-widest text-teal-600 mb-2">Message of the Governor</h4>
+                                    <h3 class="text-3xl font-display font-black text-slate-800 mb-2">Hon. Grevhen Quinton</h3>
+                                    <p class="text-sm font-bold text-slate-500 mb-4 bg-white inline-block px-3 py-1 rounded-full border border-slate-200">4th and 5th COS Governor</p>
+                                    <p class="text-slate-600 italic leading-relaxed">
+                                        "Welcome to the College of Science! As your student council, we are committed to upholding the rights and welfare of every science student. Let us work together to build a proactive and inclusive COSmmunity."
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CSSC Contacts -->
+                        <div class="mb-16">
+                            <h3 class="text-xl font-display font-black text-slate-800 mb-6 flex items-center gap-3">
+                                <i class="fa-solid fa-link text-cyan-500"></i> Connect with CSSC
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <a href="mailto:cssc@clsu.edu.ph" class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-teal-300 hover:bg-teal-50 transition-colors group">
+                                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-teal-600 shadow-sm group-hover:scale-110 transition-transform"><i class="fa-solid fa-envelope"></i></div>
+                                    <div class="overflow-hidden"><p class="text-[10px] font-bold uppercase text-slate-400">Email Us</p><p class="text-sm font-semibold text-slate-700 truncate">cssc@clsu.edu.ph</p></div>
+                                </a>
+                                <a href="https://www.facebook.com/clsu.cssc" target="_blank" class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-blue-300 hover:bg-blue-50 transition-colors group">
+                                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-600 shadow-sm group-hover:scale-110 transition-transform"><i class="fa-brands fa-facebook-f"></i></div>
+                                    <div class="overflow-hidden"><p class="text-[10px] font-bold uppercase text-slate-400">Facebook</p><p class="text-sm font-semibold text-slate-700 truncate">/clsu.cssc</p></div>
+                                </a>
+                                <a href="https://www.instagram.com/clsu.cssc/" target="_blank" class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-pink-300 hover:bg-pink-50 transition-colors group">
+                                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-pink-600 shadow-sm group-hover:scale-110 transition-transform"><i class="fa-brands fa-instagram"></i></div>
+                                    <div class="overflow-hidden"><p class="text-[10px] font-bold uppercase text-slate-400">Instagram</p><p class="text-sm font-semibold text-slate-700 truncate">@clsu.cssc</p></div>
+                                </a>
+                                <a href="https://www.facebook.com/groups/clsucosmmunity" target="_blank" class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-purple-300 hover:bg-purple-50 transition-colors group">
+                                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:scale-110 transition-transform"><i class="fa-solid fa-users"></i></div>
+                                    <div class="overflow-hidden"><p class="text-[10px] font-bold uppercase text-slate-400">FB Group</p><p class="text-sm font-semibold text-slate-700 truncate">COSmmunity</p></div>
+                                </a>
+                            </div>
+                            
+                            <a href="https://maps.app.goo.gl/xtwUEUs8DiwYxeLeA" target="_blank" class="mt-4 flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-teal-300 hover:bg-teal-50 transition-colors group inline-flex">
+                                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-red-500 shadow-sm group-hover:scale-110 transition-transform"><i class="fa-solid fa-map-location-dot"></i></div>
+                                <div><p class="text-[10px] font-bold uppercase text-slate-400">Location</p><p class="text-sm font-semibold text-slate-700">Find us on Google Maps</p></div>
+                            </a>
+                        </div>
+
+                        <!-- CSSC Directory Grid -->
+                        <div>
+                            <h3 class="text-xl font-display font-black text-slate-800 mb-6 flex items-center gap-3">
+                                <i class="fa-solid fa-address-book text-cyan-500"></i> CSSC Directory
+                            </h3>
+                            <div id="cssc-directory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- THE TALONS -->
+                    <div id="sub-talons" class="sub-section fade-in">
+                        <div class="text-center py-12 max-w-2xl mx-auto">
+                            <div class="w-24 h-24 mx-auto bg-slate-100 rounded-full flex items-center justify-center mb-6 shadow-inner border border-slate-200">
+                                <i class="fa-solid fa-feather-pointed text-4xl text-slate-700"></i>
+                            </div>
+                            <h3 class="text-3xl font-display font-black text-slate-800 mb-4">The Talons</h3>
+                            <p class="text-lg text-slate-600 mb-10">
+                                The Talons is the <span class="font-bold text-teal-700">sole Student Publication</span> of the College of Science. We bring you the latest news, features, and stories from within and beyond the scientific community.
+                            </p>
+                            
+                            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                                <a href="mailto:clsucs.talons@gmail.com" class="flex flex-col items-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-teal-300 hover:shadow-md transition-all group w-full sm:w-64">
+                                    <i class="fa-solid fa-envelope text-3xl text-teal-600 mb-3 group-hover:-translate-y-1 transition-transform"></i>
+                                    <span class="text-xs font-bold uppercase text-slate-400 mb-1">Email</span>
+                                    <span class="text-sm font-semibold text-slate-700 break-all">clsucs.talons@gmail.com</span>
+                                </a>
+                                <a href="https://www.facebook.com/costalons" target="_blank" class="flex flex-col items-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 hover:shadow-md transition-all group w-full sm:w-64">
+                                    <i class="fa-brands fa-facebook text-3xl text-blue-600 mb-3 group-hover:-translate-y-1 transition-transform"></i>
+                                    <span class="text-xs font-bold uppercase text-slate-400 mb-1">Facebook</span>
+                                    <span class="text-sm font-semibold text-slate-700 break-all">/costalons</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- THE DEPARTMENT COUNCILS -->
+                    <div id="sub-councils" class="sub-section fade-in">
+                        <div class="mb-10 text-center max-w-3xl mx-auto">
+                            <h3 class="text-3xl font-display font-black text-slate-800 mb-4">Department Councils</h3>
+                            <p class="text-slate-600">
+                                There are <span class="font-bold text-teal-700">Five Department Councils</span> existing under the College of Science and are under the CSSC. They serve as the direct representatives of their respective degree programs.
+                            </p>
+                        </div>
+                        
+                        <div id="councils-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= THE COLLEGE PAGE ================= -->
+        <section id="page-college" class="page-section bg-slate-50 min-h-screen pb-20">
+            <div class="bg-slate-900 pt-20 pb-24 border-b-4 border-cyan-500 relative overflow-hidden">
+                <!-- Abstract geometric background -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-teal-900 rounded-full blur-3xl opacity-30 -mr-20 -mt-20"></div>
+                <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+                    <h2 class="text-4xl font-display font-black text-white mb-4">The College</h2>
+                    <p class="text-slate-300">Meet the administration and explore our academic departments.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 -mt-10">
+                <!-- Sub Navigation -->
+                <div class="bg-white rounded-2xl shadow-lg p-3 flex flex-wrap gap-2 justify-center border border-slate-100 mb-10 relative z-20">
+                    <button class="sub-tab active" onclick="switchSubTab('college', 'admin')">The Administration</button>
+                    <button class="sub-tab" onclick="switchSubTab('college', 'departments')">The Departments</button>
+                </div>
+
+                <!-- Sub-sections container -->
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12">
+                    
+                    <!-- THE ADMINISTRATION -->
+                    <div id="sub-admin" class="sub-section active fade-in">
+                        
+                        <!-- Message of the Dean (Matches Governor design exactly) -->
+                        <div class="mb-16 bg-gradient-to-br from-teal-50 to-slate-50 rounded-2xl p-8 border border-teal-100 relative overflow-hidden">
+                            <i class="fa-solid fa-quote-right absolute -top-4 -right-4 text-9xl text-teal-500 opacity-5"></i>
+                            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                                <div class="w-32 h-32 rounded-full bg-teal-200 flex-shrink-0 flex items-center justify-center border-4 border-white shadow-lg overflow-hidden">
+                                    <i class="fa-solid fa-user-graduate text-5xl text-teal-700"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold uppercase tracking-widest text-teal-600 mb-2">Message of the Dean</h4>
+                                    <h3 class="text-3xl font-display font-black text-slate-800 mb-2">Dean Angeles M. De Leon</h3>
+                                    <a href="mailto:angeles.deleon@clsu2.edu.ph" class="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-teal-600 transition-colors mb-4 bg-white px-3 py-1 rounded-full border border-slate-200">
+                                        <i class="fa-solid fa-envelope"></i> angeles.deleon@clsu2.edu.ph
+                                    </a>
+                                    <p class="text-slate-600 italic leading-relaxed">
+                                        "Welcome to the College of Science. We take pride in cultivating a culture of scientific inquiry, excellence, and innovation. Together, we shape the future of science."
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 flex flex-col items-center">
+                            <h4 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 text-center">College Office Contacts</h4>
+                            <div class="flex flex-col sm:flex-row gap-6">
+                                <a href="mailto:cos@clsu.edu.ph" class="flex items-center gap-4 px-8 py-4 bg-white rounded-xl border border-slate-200 hover:border-teal-500 shadow-sm transition-all group">
+                                    <i class="fa-solid fa-envelope text-2xl text-teal-600 group-hover:scale-110 transition-transform"></i>
+                                    <div><p class="text-[10px] font-bold uppercase text-slate-400">General Inquiry</p><p class="font-bold text-slate-700">cos@clsu.edu.ph</p></div>
+                                </a>
+                                <a href="https://www.facebook.com/COSCLSU" target="_blank" class="flex items-center gap-4 px-8 py-4 bg-white rounded-xl border border-slate-200 hover:border-blue-500 shadow-sm transition-all group">
+                                    <i class="fa-brands fa-facebook text-2xl text-blue-600 group-hover:scale-110 transition-transform"></i>
+                                    <div><p class="text-[10px] font-bold uppercase text-slate-400">Official Page</p><p class="font-bold text-slate-700">/COSCLSU</p></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- THE DEPARTMENTS -->
+                    <div id="sub-departments" class="sub-section fade-in">
+                        <div class="mb-8 flex items-center gap-4 border-b border-slate-100 pb-4">
+                            <i class="fa-solid fa-flask text-2xl text-teal-600"></i>
+                            <h3 class="text-2xl font-display font-black text-slate-800">Academic Departments</h3>
+                        </div>
+                        <div id="departments-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TRANSPARENCY PAGE ================= -->
+        <section id="page-transparency" class="page-section bg-slate-50 min-h-screen pb-20">
+            <div class="bg-teal-800 pt-20 pb-24 border-b-4 border-cyan-500">
+                <div class="max-w-7xl mx-auto px-6 text-center">
+                    <h2 class="text-4xl font-display font-black text-white mb-4">Transparency</h2>
+                    <p class="text-teal-100">Commitment to accountability and open governance.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 -mt-10">
+                <div class="bg-white rounded-3xl shadow-lg border border-slate-200 p-10 md:p-16">
+                    <div class="text-center mb-12">
+                        <div class="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center mb-6 mx-auto border border-teal-100">
+                            <i class="fa-solid fa-file-invoice-dollar text-3xl text-teal-600"></i>
+                        </div>
+                        <h3 class="text-3xl font-display font-bold text-slate-800 mb-2">Document Portal</h3>
+                        <p class="text-slate-500 max-w-lg mx-auto">Access financial reports, resolutions, policies, and council minutes in accordance with our transparent governance policies.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <a href="https://drive.google.com/drive/folders/16-HTSvx3YCLNac-FNjEG4gyHTX6152Xo?usp=drive_link" target="_blank" class="flex items-center p-6 border-2 border-slate-100 rounded-2xl hover:border-teal-500 hover:shadow-lg transition-all group bg-slate-50 hover:bg-white">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-teal-600 mr-5 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-chart-line text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg group-hover:text-teal-700 transition-colors">Annual Governance Report</h4>
+                                <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">View Folder <i class="fa-solid fa-arrow-right ml-1"></i></p>
+                            </div>
+                        </a>
+
+                        <a href="https://drive.google.com/drive/folders/1ioG3OOWjQqlxLlnMHMeVjKQnpHyX0ee5?usp=drive_link" target="_blank" class="flex items-center p-6 border-2 border-slate-100 rounded-2xl hover:border-teal-500 hover:shadow-lg transition-all group bg-slate-50 hover:bg-white">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-teal-600 mr-5 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-gavel text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg group-hover:text-teal-700 transition-colors">Policies and Resolutions</h4>
+                                <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">View Folder <i class="fa-solid fa-arrow-right ml-1"></i></p>
+                            </div>
+                        </a>
+
+                        <a href="https://drive.google.com/drive/folders/1dTh-5sH_i8jXEvMVNEmFuIDUnoxAYd13?usp=drive_link" target="_blank" class="flex items-center p-6 border-2 border-slate-100 rounded-2xl hover:border-teal-500 hover:shadow-lg transition-all group bg-slate-50 hover:bg-white">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-teal-600 mr-5 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-book-open text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg group-hover:text-teal-700 transition-colors">Session Journal and Minutes</h4>
+                                <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">View Folder <i class="fa-solid fa-arrow-right ml-1"></i></p>
+                            </div>
+                        </a>
+
+                        <a href="https://drive.google.com/drive/folders/1fwHcpi1CUishvBqtO_JyG-pN3XYxn4SP?usp=drive_link" target="_blank" class="flex items-center p-6 border-2 border-slate-100 rounded-2xl hover:border-teal-500 hover:shadow-lg transition-all group bg-slate-50 hover:bg-white">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-teal-600 mr-5 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-file-invoice text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg group-hover:text-teal-700 transition-colors">Audited Financial Transactions</h4>
+                                <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">View Folder <i class="fa-solid fa-arrow-right ml-1"></i></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-10 text-center border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <!-- Eagle Head Footer Icon -->
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-teal-600">
+                    <path d="M22 6c-3-2-6-2-9-1-1.5.5-3 1.5-4 3-2 3-2 6 0 9l-5 4c2-1 4-1 6-1h1c3 1 7 1 9-2 2-3 2-6 0-9 1 0 2-1 2-3z"/>
+                    <circle cx="14" cy="8" r="1.5" fill="currentColor"/>
+                </svg>
+                <span class="font-display font-bold text-white tracking-widest">Ka-COSci Web</span>
+            </div>
+            <p class="text-sm">College of Science Student Council - CLSU, Inc.</p>
+            <p class="text-xs mt-2 opacity-50">&copy; 2026 All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA STRUCTURES ---
+
+        const csscDirectory = [
+            { name: "Grevhen Quinton", pos: "College Governor", email: "grevhen.quinton@clsu2.edu.ph" },
+            { name: "Mary Katerie Sebastian", pos: "Vice Governor", email: "sebastian.mary@clsu2.edu.ph" },
+            { name: "Cassie Anjeli Figuracion", pos: "Secretary", email: "cassieanjeli.figuracion@clsu2.edu.ph" },
+            { name: "Adrialynn Joyce Medel", pos: "Treasurer", email: "medel.adrialynnjoyce@clsu2.edu.ph" },
+            { name: "Keemharry Dustin Toledana", pos: "Auditor", email: "toledana.keemharry@clsu2.edu.ph" },
+            { name: "Kate Nicolai Ocampo", pos: "Public Information Officer", email: "ocampo.katenicolai@clsu2.edu.ph" },
+            { name: "Rhona May Hilario", pos: "BIO Rep", email: "hilario.rhonamay@clsu2.edu.ph" },
+            { name: "Alyza Valmonte", pos: "BIO Rep", email: "valmonte.alyza@clsu2.edu.ph" },
+            { name: "Mary Grace Angayon", pos: "CHEM Rep", email: "angayon.marygrace@clsu2.edu.ph" },
+            { name: "Fiona Elysse Cortez", pos: "CHEM Rep", email: "cortez.fionaelysse@clsu2.edu.ph" },
+            { name: "Amarlyn De Leon", pos: "ES-MET Rep", email: "deleon.amarlyn@clsu2.edu.ph" },
+            { name: "Mariel Ann Kalalang", pos: "ES-MET Rep", email: "kalalang.marielann@clsu2.edu.ph" },
+            { name: "Julianne Meryl Chan", pos: "MATH Rep", email: "chan.juliannemeryl@clsu2.edu.ph" },
+            { name: "Earl Justine Tumamao", pos: "MATH Rep", email: "tumamao.earljustine@clsu2.edu.ph" },
+            { name: "Jeslie Abalos", pos: "STAT Rep", email: "abalos.jeslie@clsu2.edu.ph" },
+            { name: "Marius Angeles", pos: "STAT Rep", email: "angeles.marius@clsu2.edu.ph" }
+        ];
+
+        const departmentCouncils = [
+            { name: "Biology Supreme Student Council", email: "clsubssc@gmail.com", fb: "https://www.facebook.com/bsscclsu", icon: "fa-dna" },
+            { name: "BS Chemistry Student Council", email: "bscsc@clsu.edu.ph", fb: "https://www.facebook.com/bscscclsu", icon: "fa-vial" },
+            { name: "Environmental Science and Meteorology Student Council", email: "clsuenvisciecouncil@gmail.com", fb: "https://www.facebook.com/CLSUESMSC", icon: "fa-cloud-sun" },
+            { name: "Mathematics Student Council", email: "clsubsmathcouncil@gmail.com", fb: "https://www.facebook.com/BachelorofScienceinMathematicsCLSU", icon: "fa-calculator" },
+            { name: "Statistics Student Council", email: "clsustatcouncil@gmail.com", fb: "https://www.facebook.com/clsustatcouncil", icon: "fa-chart-pie" }
+        ];
+
+        const departments = [
+            { 
+                name: "Biological Sciences", 
+                degrees: ["BS Biology", "MS Biology", "PhD Biology"],
+                headTitle: "Department Head",
+                headName: "Dr. Mary Jhane G. Valentino",
+                email: "maryjhane.valentino@clsu2.edu.ph",
+                icon: "fa-seedling",
+                color: "teal"
+            },
+            { 
+                name: "Chemistry", 
+                degrees: ["BS Chemistry", "MS Chemistry"],
+                headTitle: "Department Head",
+                headName: "Dr. Nerissa C. Ramos",
+                email: "nerissa.ramos@clsu2.edu.ph",
+                icon: "fa-flask-vial",
+                color: "blue"
+            },
+            { 
+                name: "Environmental Science and Meteorology", 
+                degrees: ["BS Environmental Science", "BS Meteorology", "MS Environmental Management", "PhD Environmental Management"],
+                headTitle: "Department Head",
+                headName: "Dr. Redel L. Gutierrez",
+                email: "redel.gutierrez@clsu2.edu.ph",
+                icon: "fa-leaf",
+                color: "cyan"
+            },
+            { 
+                name: "Mathematics and Physics", 
+                degrees: ["BS Mathematics"],
+                headTitle: "Department Head",
+                headName: "Dr. John Rafael M. Antalan",
+                email: "johnrafael.antalan@clsu2.edu.ph",
+                icon: "fa-square-root-variable",
+                color: "indigo"
+            },
+            { 
+                name: "Statistics", 
+                degrees: ["BS Statistics"],
+                headTitle: "Department Head",
+                headName: "Ms. Onneth O. Tejada",
+                email: "onneth.tejada@clsu2.edu.ph",
+                icon: "fa-chart-column",
+                color: "purple"
+            }
+        ];
+
+        // --- RENDERING LOGIC ---
+
+        function renderCSSCDirectory() {
+            const container = document.getElementById('cssc-directory-grid');
+            container.innerHTML = csscDirectory.map(member => `
+                <div class="portal-card p-5 flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 flex-shrink-0 border border-slate-200">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="overflow-hidden w-full">
+                        <span class="inline-block px-2 py-1 bg-teal-50 text-teal-700 text-[9px] font-black uppercase tracking-widest rounded mb-1">${member.pos}</span>
+                        <h4 class="font-bold text-slate-800 text-sm truncate" title="${member.name}">${member.name}</h4>
+                        <a href="mailto:${member.email}" class="text-xs text-slate-500 hover:text-teal-600 truncate block mt-1 transition-colors" title="${member.email}">
+                            <i class="fa-solid fa-envelope mr-1"></i>${member.email}
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderDepartmentCouncils() {
+            const container = document.getElementById('councils-grid');
+            container.innerHTML = departmentCouncils.map(council => `
+                <div class="portal-card p-6 flex flex-col h-full">
+                    <div class="w-12 h-12 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center text-xl mb-4 border border-teal-100">
+                        <i class="fa-solid ${council.icon}"></i>
+                    </div>
+                    <h4 class="font-display font-bold text-slate-800 text-lg leading-tight mb-4 flex-grow">${council.name}</h4>
+                    <div class="space-y-2 pt-4 border-t border-slate-100 mt-auto">
+                        <a href="mailto:${council.email}" class="flex items-center gap-2 text-xs text-slate-600 hover:text-teal-600 transition-colors">
+                            <i class="fa-solid fa-envelope w-4"></i> <span class="truncate">${council.email}</span>
+                        </a>
+                        <a href="${council.fb}" target="_blank" class="flex items-center gap-2 text-xs text-slate-600 hover:text-blue-600 transition-colors">
+                            <i class="fa-brands fa-facebook w-4"></i> <span class="truncate">Facebook Page</span>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderDepartments() {
+            const container = document.getElementById('departments-grid');
+            container.innerHTML = departments.map(dept => `
+                <div class="portal-card p-6 border-l-4 border-l-${dept.color}-500">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid ${dept.icon} text-xl text-${dept.color}-600"></i>
+                        <h4 class="font-display font-bold text-slate-800 text-lg">${dept.name}</h4>
+                    </div>
+                    
+                    <div class="mb-5">
+                        <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Degree Offerings</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${dept.degrees.map(deg => `<span class="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-full">${deg}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                        <p class="text-[10px] font-bold uppercase text-slate-400 mb-1">${dept.headTitle}</p>
+                        <p class="font-bold text-sm text-slate-700 mb-1">${dept.headName}</p>
+                        <a href="mailto:${dept.email}" class="text-xs text-${dept.color}-600 hover:underline inline-flex items-center gap-1">
+                            <i class="fa-solid fa-envelope"></i> ${dept.email}
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- NAVIGATION LOGIC ---
+
+        function navigate(pageId) {
+            // Update main Nav styling
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if(link.textContent.toLowerCase().includes(pageId.replace('-', ' '))) {
+                    link.classList.add('active');
+                } else if (pageId === 'student-life' && link.textContent === 'Student Life') {
+                    link.classList.add('active');
+                }
+            });
+
+            // Hide all pages, show target
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchSubTab(page, tabId) {
+            // Update sub-tab styling
+            const pageContainer = document.getElementById(`page-${page}`);
+            pageContainer.querySelectorAll('.sub-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if(tab.getAttribute('onclick').includes(tabId)) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Hide all sub-sections in this page, show target
+            pageContainer.querySelectorAll('.sub-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(`sub-${tabId}`).classList.add('active');
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCSSCDirectory();
+            renderDepartmentCouncils();
+            renderDepartments();
+        });
+
+    </script>
+</body>
+</html>
