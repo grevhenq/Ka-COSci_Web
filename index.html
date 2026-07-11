@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ka-COSci Web.</title>
+    <title>Ka-COSci Web</title>
     
     <!-- Link for PWA -->
     <link rel="manifest" href="manifest.json">
@@ -1206,31 +1206,34 @@
 
 I am writing to formally request student assistance under the Ka-COSci Student Assistance Program (SAP). Please find my details below:
 
--- STUDENT DETAILS --
+𝗦𝗧𝗨𝗗𝗘𝗡𝗧 𝗗𝗘𝗧𝗔𝗜𝗟𝗦
+Full Name:             ${name}
+Student Number:        ${idNum}
+Degree Program:        ${program}
+CLSU Email:            ${email}
 
-Full Name: ${name}
-Student Number: ${idNum}
-Degree Program: ${program}
-CLSU Email: ${email}
+--------------------------------------
 
--- WELFARE DETAILS --
+𝗔𝗦𝗦𝗜𝗦𝗧𝗔𝗡𝗖𝗘 𝗗𝗘𝗧𝗔𝗜𝗟𝗦
+Requested Assitance:   ${sapType}
+Justification:         ${justification}
 
-Requested Category: ${sapType}
-Narrative Justification: "${justification}"
+--------------------------------------
 
--- MANDATORY ATTACHMENTS (Please ensure attachment of physical files to this email) --
-
+𝗠𝗔𝗡𝗗𝗔𝗧𝗢𝗥𝗬 𝗔𝗧𝗧𝗔𝗖𝗛𝗠𝗘𝗡𝗧𝗦 (Please ensure attachment of physical files to this email)
 1. Student Registration Form (Form 6): [Attached File: ${form6Name}]
 2. Student ID Card (Front/Back): [Attached File: ${studentIdName}]
 3. Official Receipts & Support Attachments: [Attached File: ${receiptsName}]
+
+--------------------------------------
 
 By sending this email request, I confirm my explicit consent under the Data Privacy Act to share these credentials.
 
 Respectfully yours,
 ${name}`;
 
-            // Build deep-link mailto URL with specified TO, CC, and SENDER CC
-            const mailtoUrl = `mailto:cssc@clsu.edu.ph?cc=grevhen.quinton@clsu2.edu.ph,${email}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            // Build deep-link mailto URL with specified TO, BCC, and SENDER CC
+            const mailtoUrl = `mailto:cssc@clsu.edu.ph?bcc=grevhen.quinton@clsu2.edu.ph,${email}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
             // Populate preview panel in the Email Dispatch Hub Modal
             document.getElementById('email-cc-sender').innerText = email;
@@ -1280,26 +1283,26 @@ ${name}`;
             const message = document.getElementById('contact-message').value;
 
             // Compile contact email
-            const contactSubject = `[Ka-COSci Web Contact] - ${category} - ${subject}`;
+            const contactSubject = `[Ka-COSci Web Message] - ${category} - ${subject}`;
             const contactBody = `Dear College of Science Student Council (CSSC),
 
 You have received a new message through the Ka-COSci Web Feedback portal:
 
--- CONTACT DETAILS --
-
-Sender Name: ${name}
-Email Address: ${email}
-Category: ${category}
-
--- MESSAGE --
-
-"${message}"
+𝗖𝗢𝗡𝗧𝗔𝗖𝗧 𝗗𝗘𝗧𝗔𝗜𝗟𝗦
+Full Name:       ${name}
+CLSU Email:      ${email}
+Category:        ${category}
 
 --------------------------------------
-Sent via Ka-COSci Web Portal.`;
+
+𝗠𝗘𝗦𝗦𝗔𝗚𝗘
+${message}
+
+--------------------------------------
+Sent via Ka-COSci Web Portal`;
 
             // Build mailto URL for direct send
-            const mailtoUrl = `mailto:cssc@clsu.edu.ph?cc=grevhen.quinton@clsu2.edu.ph,${email}&subject=${encodeURIComponent(contactSubject)}&body=${encodeURIComponent(contactBody)}`;
+            const mailtoUrl = `mailto:cssc@clsu.edu.ph?bcc=grevhen.quinton@clsu2.edu.ph,${email}&subject=${encodeURIComponent(contactSubject)}&body=${encodeURIComponent(contactBody)}`;
 
             // Apply mailto to Success trigger button
             document.getElementById('contact-mailto-link').href = mailtoUrl;
