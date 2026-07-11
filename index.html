@@ -146,6 +146,11 @@
             border: 2px dashed #CBD5E1;
             transition: all 0.3s;
         }
+        .custom-file-upload.dragover {
+            border-color: #0d9488;
+            background-color: #f0fdfa;
+            transform: scale(1.02);
+        }
         .custom-file-upload.selected {
             border-color: #0d9488;
             background-color: #f0fdfa;
@@ -427,11 +432,17 @@
                             </div>
                         </div>
 
-                        <!-- CSSC Directory Grid -->
+                        <!-- CSSC Directory Grid & Premium Search Filter -->
                         <div>
-                            <h3 class="text-xl font-display font-black text-slate-800 mb-6 flex items-center gap-3">
-                                <i class="fa-solid fa-address-book text-cyan-500"></i> CSSC Directory
-                            </h3>
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-slate-100 pb-4">
+                                <h3 class="text-xl font-display font-black text-slate-800 flex items-center gap-3">
+                                    <i class="fa-solid fa-address-book text-cyan-500"></i> CSSC Directory
+                                </h3>
+                                <div class="relative w-full md:w-80">
+                                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                    <input type="text" id="directory-search" oninput="filterDirectory()" class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all text-sm" placeholder="Search officers or roles...">
+                                </div>
+                            </div>
                             <div id="cssc-directory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <!-- Populated by JS -->
                             </div>
@@ -450,12 +461,12 @@
                             </p>
                             
                             <div class="flex flex-col sm:flex-row justify-center gap-6">
-                                <a href="mailto:clsucs.talons@gmail.com" class="flex flex-col items-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-teal-300 hover:shadow-md transition-all group w-full sm:w-64">
+                                <a href="mailto:clsucs.talons@gmail.com" class="flex items-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-teal-300 hover:shadow-md transition-all group w-full sm:w-64">
                                     <i class="fa-solid fa-envelope text-3xl text-teal-600 mb-3 group-hover:-translate-y-1 transition-transform"></i>
                                     <span class="text-xs font-bold uppercase text-slate-400 mb-1">Email</span>
                                     <span class="text-sm font-semibold text-slate-700 break-all">clsucs.talons@gmail.com</span>
                                 </a>
-                                <a href="https://www.facebook.com/costalons" target="_blank" class="flex flex-col items-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 hover:shadow-md transition-all group w-full sm:w-64">
+                                <a href="https://www.facebook.com/costalons" target="_blank" class="flex items-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 hover:shadow-md transition-all group w-full sm:w-64">
                                     <i class="fa-brands fa-facebook text-3xl text-blue-600 mb-3 group-hover:-translate-y-1 transition-transform"></i>
                                     <span class="text-xs font-bold uppercase text-slate-400 mb-1">Facebook</span>
                                     <span class="text-sm font-semibold text-slate-700 break-all">/costalons</span>
@@ -482,7 +493,6 @@
             </div>
         </section>
 
-
         <!-- ================= THE COLLEGE PAGE ================= -->
         <section id="page-college" class="page-section bg-slate-50 min-h-screen pb-20">
             <div class="bg-slate-900 pt-20 pb-24 border-b-4 border-cyan-500 relative overflow-hidden">
@@ -499,6 +509,7 @@
                 <div class="bg-white rounded-2xl shadow-lg p-3 flex flex-wrap gap-2 justify-center border border-slate-100 mb-10 relative z-20">
                     <button class="sub-tab active" onclick="switchSubTab('college', 'admin')">The Administration</button>
                     <button class="sub-tab" onclick="switchSubTab('college', 'departments')">The Departments</button>
+                    <button class="sub-tab" onclick="switchSubTab('college', 'facilities')">Facilities</button>
                 </div>
 
                 <!-- Sub-sections container -->
@@ -553,6 +564,72 @@
                         </div>
                     </div>
 
+                    <!-- FACILITIES SUBPAGE -->
+                    <div id="sub-facilities" class="sub-section fade-in">
+                        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                            <div>
+                                <h3 class="text-2xl font-display font-black text-slate-800 flex items-center gap-3">
+                                    <i class="fa-solid fa-building text-teal-600"></i> College Facilities
+                                </h3>
+                                <p class="text-xs text-slate-500 mt-1">Explore, search, and filter physical facilities, laboratories, and lecture rooms within the College of Science campus.</p>
+                            </div>
+                            
+                            <!-- Search Facility bar -->
+                            <div class="relative w-full md:w-80 flex-shrink-0">
+                                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" id="facility-search" oninput="filterFacilities()" class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all text-sm" placeholder="Search rooms, labs, offices...">
+                            </div>
+                        </div>
+
+                        <!-- Table Filters -->
+                        <div class="flex flex-wrap gap-4 mb-6 text-sm">
+                            <div class="flex flex-col gap-1 w-full sm:w-auto">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Building Code (B-CODE)</span>
+                                <select id="facility-bcode-filter" onchange="filterFacilities()" class="px-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 outline-none focus:border-teal-500 text-xs font-semibold">
+                                    <option value="ALL">All Buildings</option>
+                                    <option value="COS">COS (Main Building)</option>
+                                    <option value="COS-A">COS-A (Annex)</option>
+                                    <option value="ICCEM">ICCEM</option>
+                                    <option value="CASS">CASS</option>
+                                    <option value="RSTC">RSTC</option>
+                                    <option value="BIOAS">BIOAS</option>
+                                    <option value="IBS">IBS</option>
+                                    <option value="BAL">BAL</option>
+                                    <option value="FFADL">FFADL</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-1 w-full sm:w-auto">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Floor Level</span>
+                                <select id="facility-floor-filter" onchange="filterFacilities()" class="px-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 outline-none focus:border-teal-500 text-xs font-semibold">
+                                    <option value="ALL">All Floors</option>
+                                    <option value="1">1st Floor</option>
+                                    <option value="2">2nd Floor</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm bg-white">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[10px] font-black">
+                                        <th class="p-4">Building (B-CODE)</th>
+                                        <th class="p-4">Floor</th>
+                                        <th class="p-4">Official Code</th>
+                                        <th class="p-4">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="facilities-table-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="facilities-no-results" class="hidden py-12 text-center text-slate-400">
+                            <i class="fa-solid fa-circle-exclamation text-3xl mb-2 block"></i>
+                            No facilities match the chosen search criteria.
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -578,26 +655,41 @@
                 <!-- Sub-sections container -->
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-12">
                     
-                    <!-- SAP GUIDELINES: Reorganized to show each category individually! -->
+                    <!-- SAP GUIDELINES: Reorganized with Premium Category Search Filter and Restored Financials -->
                     <div id="sub-sap-services" class="sub-section active fade-in">
-                        <div class="mb-12 border-b border-slate-100 pb-6">
+                        <div class="mb-8 border-b border-slate-100 pb-6">
                             <h3 class="text-2xl font-display font-black text-slate-800 flex items-center gap-3">
                                 <i class="fa-solid fa-clipboard-list text-teal-600"></i> Available Assistance Categories
                             </h3>
                             <p class="text-sm text-slate-500 mt-2">Every student of the College of Science is entitled to request support under the following council welfare channels.</p>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Real-time Filter System for SAP Benefits -->
+                        <div class="mb-10 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <div class="relative w-full md:w-96">
+                                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" id="sap-search" oninput="filterSapServices()" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all text-sm bg-white" placeholder="Search assistance services (e.g. printing, therapy)...">
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 w-full md:w-auto">
+                                <button onclick="filterSapCategory('all')" class="sap-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-teal-800 text-white shadow-sm transition-all">All</button>
+                                <button onclick="filterSapCategory('In-Kind')" class="sap-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">In-Kind</button>
+                                <button onclick="filterSapCategory('Financial')" class="sap-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">Financial</button>
+                                <button onclick="filterSapCategory('Student Services')" class="sap-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">Student Services</button>
+                            </div>
+                        </div>
+
+                        <!-- SAP Benefits Grid showing each individual category -->
+                        <div id="sap-benefits-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <!-- In-Kind Categories -->
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-teal-50/20 hover:border-teal-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-teal-50/20 hover:border-teal-300 transition-all flex gap-4" data-category="In-Kind">
                                 <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-box-archive"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-teal-100 text-teal-800 text-[9px] font-black rounded uppercase">In-Kind</span></div>
-                                    <h5 class="font-bold text-slate-800 text-sm">Borrowing of Materials</h5>
-                                    <p class="text-xs text-slate-500 mt-1">Temporary loan services for essential science equipment, lab tools, and materials.</p>
+                                    <h5 class="font-bold text-slate-800 text-sm">Borrowing of Equipments</h5>
+                                    <p class="text-xs text-slate-500 mt-1">Temporary loan services for essential council equipments and materials.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-teal-50/20 hover:border-teal-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-teal-50/20 hover:border-teal-300 transition-all flex gap-4" data-category="In-Kind">
                                 <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-print"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-teal-100 text-teal-800 text-[9px] font-black rounded uppercase">In-Kind</span></div>
@@ -605,7 +697,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Document and reviewer printing support for academic submissions.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-teal-50/20 hover:border-teal-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-teal-50/20 hover:border-teal-300 transition-all flex gap-4" data-category="In-Kind">
                                 <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-file-signature"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-teal-100 text-teal-800 text-[9px] font-black rounded uppercase">In-Kind</span></div>
@@ -613,7 +705,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Provided test booklets for exams, evaluations, and department tests.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-teal-50/20 hover:border-teal-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-teal-50/20 hover:border-teal-300 transition-all flex gap-4" data-category="In-Kind">
                                 <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-coffee"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-teal-100 text-teal-800 text-[9px] font-black rounded uppercase">In-Kind</span></div>
@@ -623,7 +715,7 @@
                             </div>
 
                             <!-- Financial Categories -->
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-hand-holding-dollar"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -631,7 +723,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Immediate monetary support for personal emergencies or sudden hardships.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-bus"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -639,7 +731,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Transportation allowances for sudden emergency travel or medical transfers.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-bowl-food"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -647,7 +739,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Food allowances for students dealing with sudden economic difficulty.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-house-chimney"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -655,7 +747,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Subsidies to offset urgent dormitory dues or lodging emergencies.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-square-h"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -663,7 +755,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Financial help for hospital stays, surgeries, or inpatient clinical charges.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-hospital-user"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -671,7 +763,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Support for clinic check-ups, diagnostic lab tests, or medicines.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-scale-balanced"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -679,7 +771,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Subsidies to offset legal consultations or structural representation.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-user-doctor"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -687,7 +779,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Financial coverage for clinical psychological counsel or treatments.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-ribbon"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -695,7 +787,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Grants to support students undergoing cancer treatment or chemotherapy.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-heart-pulse"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -703,7 +795,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Subsidy for recovering students who require physical therapy or rehab.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-wheelchair"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -711,7 +803,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Modifiers, aids, and services for differently-abled COS students.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-monument"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -719,7 +811,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Supportive funding allocated for students in unfortunate events.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-graduation-cap"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -727,7 +819,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Funding linkage, review materials, and licensure fee subsidies.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-people-group"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -735,7 +827,7 @@
                                     <p class="text-xs text-slate-500 mt-1">Grants for student-led activities and recognized organizations.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-cyan-50/20 hover:border-cyan-300 transition-all flex gap-4" data-category="Financial">
                                 <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-book-open-reader"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-[9px] font-black rounded uppercase">Financial</span></div>
@@ -744,61 +836,69 @@
                                 </div>
                             </div>
 
-                            <!-- Student Services Categories (Ordered correctly as specified!) -->
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4">
+                            <!-- Student Services Categories (NAMES AND EMAILS REMOVED AS REQUESTED) -->
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4" data-category="Student Services">
                                 <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black rounded uppercase">Student Services</span></div>
                                     <h5 class="font-bold text-slate-800 text-sm">Anti-Sexual Harassment Unit (ASHU)</h5>
-                                    <p class="text-xs text-slate-500 mt-1">Focal Person: Dr. Irene G. Bustos. Support and protection parameters inside the university.</p>
+                                    <p class="text-xs text-slate-500 mt-1">Support and protection parameters inside the university.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4" data-category="Student Services">
                                 <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-hands-holding-child"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black rounded uppercase">Student Services</span></div>
                                     <h5 class="font-bold text-slate-800 text-sm">Mental Health Counseling</h5>
-                                    <p class="text-xs text-slate-500 mt-1">Focal Person: Assoc Prof. Ferlyn F. Reyes-Colar. Dedicated counselor service for College of Science students.</p>
+                                    <p class="text-xs text-slate-500 mt-1">Dedicated counselor service for College of Science students.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4" data-category="Student Services">
                                 <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-briefcase"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black rounded uppercase">Student Services</span></div>
                                     <h5 class="font-bold text-slate-800 text-sm">Career Development and Employment Services Unit (CDESU)</h5>
-                                    <p class="text-xs text-slate-500 mt-1">Focal Person: Assoc. Prof. Rochelle Ann V. Pararuan. Career development and job employment opportunities.</p>
+                                    <p class="text-xs text-slate-500 mt-1">Career development and job employment opportunities.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4" data-category="Student Services">
                                 <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-comments"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black rounded uppercase">Student Services</span></div>
                                     <h5 class="font-bold text-slate-800 text-sm">Guidance Services Unit (GSU)</h5>
-                                    <p class="text-xs text-slate-500 mt-1">Focal Person: Assoc Prof. Dr. Angeli T. Austria. General counseling & guidance programs.</p>
+                                    <p class="text-xs text-slate-500 mt-1">General counseling & guidance programs.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4" data-category="Student Services">
                                 <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-sitemap"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black rounded uppercase">Student Services</span></div>
                                     <h5 class="font-bold text-slate-800 text-sm">Student Organizations Unit (SOU)</h5>
-                                    <p class="text-xs text-slate-500 mt-1">Focal Person: Assoc. Prof. Engr. Ernesto T. Jimenez Jr. Recognized student groups and org setups.</p>
+                                    <p class="text-xs text-slate-500 mt-1">OSA recognized student groups and org setups.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4">
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4" data-category="Student Services">
                                 <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-newspaper"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black rounded uppercase">Student Services</span></div>
                                     <h5 class="font-bold text-slate-800 text-sm">Information Management and Publication Unit (IMPU)</h5>
-                                    <p class="text-xs text-slate-500 mt-1">Focal Person: Assoc Prof. Dr. Alexis G. Ramirez. Information, media, and campus publishing oversight.</p>
+                                    <p class="text-xs text-slate-500 mt-1">Information, media, and campus publishing oversight.</p>
                                 </div>
                             </div>
-                            <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-scale-unbalanced-reformed"></i></div>
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4" data-category="Student Services">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-scale-balanced"></i></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black rounded uppercase">Student Services</span></div>
                                     <h5 class="font-bold text-slate-800 text-sm">Student Discipline and Reformation Unit (SDRU)</h5>
-                                    <p class="text-xs text-slate-500 mt-1">Focal Person: Assoc Prof. Dr. Jayson L. Marzan. Student discipline reformation and compliance.</p>
+                                    <p class="text-xs text-slate-500 mt-1">Student discipline reformation and compliance.</p>
+                                </div>
+                            </div>
+                            <div class="sap-card p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 transition-all flex gap-4" data-category="Student Services">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-hospital-user"></i></div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black rounded uppercase">Student Services</span></div>
+                                    <h5 class="font-bold text-slate-800 text-sm">Wellness Hub</h5>
+                                    <p class="text-xs text-slate-500 mt-1">Supportive mental health wellness parameters.</p>
                                 </div>
                             </div>
                         </div>
@@ -865,7 +965,7 @@
                                         <select id="sap-type" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all">
                                             <option value="">-- Select Assistance Channel --</option>
                                             <optgroup label="In-Kind Assistances (CSSC)">
-                                                <option value="Borrowing of Materials">Borrowing of Materials</option>
+                                                <option value="Borrowing of Materials">Borrowing of Equipments</option>
                                                 <option value="Free Printing">Free Printing</option>
                                                 <option value="Free Test Booklets">Free Test Booklets</option>
                                                 <option value="Free Coffee and Snacks">Free Coffee and Snacks</option>
@@ -895,6 +995,7 @@
                                                 <option value="Student Organizations Unit (SOU)">Student Organizations (SOU)</option>
                                                 <option value="Information Management and Publication Unit (IMPU)"> Info/Publications (IMPU)</option>
                                                 <option value="Student Discipline and Reformation Unit (SDRU)"> Student Discipline and Reformation (SDRU)</option>
+                                                <option value="Wellness Hub">Wellness Hub</option>
                                             </optgroup>
                                         </select>
                                     </div>
@@ -905,31 +1006,31 @@
                                 </div>
                             </div>
 
-                            <!-- Section 3: Document Uploads -->
+                            <!-- Section 3: Document Uploads with Integrated Drag & Drop dropzones! -->
                             <div>
                                 <h4 class="text-xs font-bold uppercase tracking-widest text-teal-600 mb-4 flex items-center gap-2">
                                     <span class="w-5 h-5 rounded-full bg-teal-50 flex items-center justify-center border border-teal-200">3</span> Supporting Files
                                 </h4>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     
-                                    <!-- Form 6 -->
+                                    <!-- Form 6 Dropzone -->
                                     <div class="flex flex-col">
                                         <label class="text-xs font-bold text-slate-600 mb-2">Student Registration Form (Form 6) <span class="text-red-500">*</span></label>
-                                        <div id="wrapper-form6" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center">
+                                        <div id="wrapper-form6" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center" ondragover="handleDragOver(event, 'wrapper-form6')" ondragleave="handleDragLeave(event, 'wrapper-form6')" ondrop="handleDrop(event, 'file-form6', 'wrapper-form6', 'label-form6')">
                                             <input type="file" id="file-form6" required class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileChange(this, 'wrapper-form6', 'label-form6')">
                                             <i class="fa-solid fa-file-invoice text-3xl text-slate-400 mb-2"></i>
-                                            <p id="label-form6" class="text-xs font-bold text-slate-600">Click to upload Form 6</p>
+                                            <p id="label-form6" class="text-xs font-bold text-slate-600">Drag or click to upload Form 6</p>
                                             <span class="text-[10px] text-slate-400 mt-1">PDF, JPG or PNG format</span>
                                         </div>
                                     </div>
 
-                                    <!-- Student ID -->
+                                    <!-- Student ID Dropzone -->
                                     <div class="flex flex-col">
                                         <label class="text-xs font-bold text-slate-600 mb-2">Student ID Card (Front/Back) <span class="text-red-500">*</span></label>
-                                        <div id="wrapper-studentid" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center">
+                                        <div id="wrapper-studentid" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center" ondragover="handleDragOver(event, 'wrapper-studentid')" ondragleave="handleDragLeave(event, 'wrapper-studentid')" ondrop="handleDrop(event, 'file-studentid', 'wrapper-studentid', 'label-studentid')">
                                             <input type="file" id="file-studentid" required class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileChange(this, 'wrapper-studentid', 'label-studentid')">
                                             <i class="fa-solid fa-address-card text-3xl text-slate-400 mb-2"></i>
-                                            <p id="label-studentid" class="text-xs font-bold text-slate-600">Click to upload Student ID</p>
+                                            <p id="label-studentid" class="text-xs font-bold text-slate-600">Drag or click to upload Student ID</p>
                                             <span class="text-[10px] text-slate-400 mt-1">Image or PDF format</span>
                                         </div>
                                     </div>
@@ -937,10 +1038,10 @@
                                     <!-- Official Receipts / Attachments (Optional!) -->
                                     <div class="flex flex-col">
                                         <label class="text-xs font-bold text-slate-600 mb-2">Official Receipts & Support Attachments <span class="text-slate-400 font-normal">(Optional)</span></label>
-                                        <div id="wrapper-receipts" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center">
+                                        <div id="wrapper-receipts" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center" ondragover="handleDragOver(event, 'wrapper-receipts')" ondragleave="handleDragLeave(event, 'wrapper-receipts')" ondrop="handleDrop(event, 'file-receipts', 'wrapper-receipts', 'label-receipts')">
                                             <input type="file" id="file-receipts" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileChange(this, 'wrapper-receipts', 'label-receipts')">
                                             <i class="fa-solid fa-receipt text-3xl text-slate-400 mb-2"></i>
-                                            <p id="label-receipts" class="text-xs font-bold text-slate-600">Click to upload Receipts / Letters</p>
+                                            <p id="label-receipts" class="text-xs font-bold text-slate-600">Drag or click to upload Receipts</p>
                                             <span class="text-[10px] text-slate-400 mt-1">Compiled PDF</span>
                                         </div>
                                     </div>
@@ -1099,7 +1200,12 @@
 
     </main>
 
-    <!-- Success Feedback Modal (Custom Popup alternative to default alert) -->
+    <!-- Clipboard copy success notification badge -->
+    <div id="copy-toast" class="opacity-0 translate-y-4 fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-6 py-3 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 shadow-2xl pointer-events-none">
+        <i class="fa-solid fa-circle-check text-teal-400"></i> Copied to Clipboard
+    </div>
+
+    <!-- Automated Email Dispatch Hub Modal (Displays before native email client launch) -->
     <div id="sap-success-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSapModal()"></div>
         <div class="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full relative z-10 border border-teal-100 shadow-2xl flex flex-col max-h-[90vh]">
@@ -1118,7 +1224,7 @@
                 <div class="border-b border-slate-800 pb-3 space-y-1">
                     <p><span class="text-teal-400 font-bold">To:</span> <span id="email-to-recipient" class="text-white">cssc@clsu.edu.ph</span></p>
                     <div id="email-cc-sender">
-                        <p><span class="text-teal-400 font-bold">CC:</span> <span class="text-cyan-400">grevhen.quinton@clsu2.edu.ph</p>
+                        <p><span class="text-teal-400 font-bold">CC:</span> <span class="text-cyan-400">grevhen.quinton@clsu2.edu.ph, sender@clsu2.edu.ph</span></p>
                     </div>
                     <p><span class="text-teal-400 font-bold">Subject:</span> <span id="email-subject-line" class="text-white"></span></p>
                 </div>
@@ -1140,42 +1246,37 @@
     <!-- Contact Feedback Submission Success Toast/Modal -->
     <div id="contact-success-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeContactModal()"></div>
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full relative z-10 border border-teal-100 text-center shadow-2xl">
-            <div class="w-16 h-16 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6 border border-teal-200 animate-bounce">
-                <i class="fa-solid fa-comment-medical"></i>
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full relative z-10 border border-teal-100 shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100 flex-shrink-0">
+                <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-2xl border border-teal-200">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-black text-xl text-slate-800">Feedback Compiled!</h3>
+                    <p class="text-xs text-slate-500">Review your compiled message before opening your mail client</p>
+                </div>
             </div>
-            <h3 class="font-display font-black text-2xl text-slate-800 mb-2">Message Logged!</h3>
-            <p class="text-sm text-slate-500 mb-6 leading-relaxed">Your message has been successfully structured. Click below to launch your email and send your query to the CSSC.</p>
-            
-            <a id="contact-mailto-link" href="#" class="block w-full py-4 bg-teal-600 hover:bg-teal-700 text-white font-black rounded-xl transition-all text-center shadow-md mb-3">
-                Send Email Now <i class="fa-solid fa-envelope-open"></i>
-            </a>
-            <button onclick="closeContactModal()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all">
-                Close
-            </button>
+
+            <!-- Email Transmission Screen for Feedback -->
+            <div class="flex-grow overflow-y-auto bg-slate-900 text-slate-300 rounded-2xl p-5 font-mono text-[11px] md:text-xs space-y-4 shadow-inner border border-slate-800 leading-relaxed mb-6">
+                <div class="border-b border-slate-800 pb-3 space-y-1">
+                    <p><span class="text-teal-400 font-bold">To:</span> <span class="text-white">cssc@clsu.edu.ph</span></p>
+                    <p><span class="text-teal-400 font-bold">CC:</span> <span id="contact-cc-sender" class="text-cyan-400">grevhen.quinton@clsu2.edu.ph, sender@clsu2.edu.ph</span></p>
+                    <p><span class="text-teal-400 font-bold">Subject:</span> <span id="contact-subject-line" class="text-white"></span></p>
+                </div>
+                <div class="whitespace-pre-wrap text-slate-300 leading-relaxed" id="contact-body-content"></div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+                <a id="contact-mailto-link" href="#" class="flex-1 py-4 bg-teal-600 hover:bg-teal-700 text-white font-black rounded-xl text-center transition-all shadow-md inline-flex items-center justify-center gap-2">
+                    Send Email Now <i class="fa-solid fa-envelope-open"></i>
+                </a>
+                <button onclick="closeContactModal()" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all">
+                    Close
+                </button>
+            </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-10 text-center border-t border-slate-800 mt-auto">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-center gap-3 mb-6">
-                <!-- Flask with Bar Chart Footer Icon -->
-                <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 overflow-hidden text-white">
-                    <svg viewBox="0 0 100 100" fill="currentColor" class="w-5 h-5 text-white">
-                        <path d="M36,18 h28 v6 h-28 z M44,24 h12 v14 h-12 z" />
-                        <path d="M44,34 L21,76 A5,5 0 0,0 25,82 h50 A5,5 0 0,0 79,76 L56,34 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
-                        <rect x="33" y="62" width="7" height="15" rx="1" />
-                        <rect x="46" y="52" width="8" height="25" rx="1" />
-                        <rect x="60" y="58" width="7" height="19" rx="1" />
-                    </svg>
-                </div>
-                <span class="font-display font-bold text-white tracking-widest">Ka-COSci Web</span>
-            </div>
-            <p class="text-sm">College of Science Student Council - CLSU, Inc.</p>
-            <p class="text-xs mt-2 opacity-50">&copy; 2026 All Rights Reserved. Created by Grevhen Quinton</p>
-        </div>
-    </footer>
 
     <script>
         // --- DATA STRUCTURES ---
@@ -1213,7 +1314,8 @@
                 degrees: ["BS Biology", "MS Biology", "PhD Biology"],
                 headTitle: "Department Head",
                 headName: "Dr. Mary Jhane G. Valentino",
-                email: "maryjhane.valentino@clsu2.edu.ph",
+                email: "clsubiosci@clsu.edu.ph",
+                ccEmail: "maryjhane.valentino@clsu2.edu.ph",
                 icon: "fa-seedling",
                 color: "purple"
             },
@@ -1222,7 +1324,8 @@
                 degrees: ["BS Chemistry", "MS Chemistry"],
                 headTitle: "Department Head",
                 headName: "Dr. Nerissa C. Ramos",
-                email: "nerissa.ramos@clsu2.edu.ph",
+                email: "chem@clsu.edu.ph",
+                ccEmail: "nerissa.ramos@clsu2.edu.ph",
                 icon: "fa-flask-vial",
                 color: "orange"
             },
@@ -1231,7 +1334,8 @@
                 degrees: ["BS Environmental Science", "BS Meteorology", "MS Environmental Management", "PhD Environmental Management"],
                 headTitle: "Department Head",
                 headName: "Dr. Redel L. Gutierrez",
-                email: "redel.gutierrez@clsu2.edu.ph",
+                email: "envisci@clsu.edu.ph",
+                ccEmail: "redel.gutierrez@clsu2.edu.ph",
                 icon: "fa-leaf",
                 color: "green"
             },
@@ -1240,7 +1344,8 @@
                 degrees: ["BS Mathematics"],
                 headTitle: "Department Head",
                 headName: "Dr. John Rafael M. Antalan",
-                email: "johnrafael.antalan@clsu2.edu.ph",
+                email: "mathandphysics@clsu.edu.ph",
+                ccEmail: "johnrafael.antalan@clsu2.edu.ph",
                 icon: "fa-square-root-variable",
                 color: "red"
             },
@@ -1249,46 +1354,155 @@
                 degrees: ["BS Statistics"],
                 headTitle: "Department Head",
                 headName: "Ms. Onneth O. Tejada",
-                email: "onneth.tejada@clsu2.edu.ph",
+                email: "statistics@clsu.edu.ph",
+                ccEmail: "onneth.tejada@clsu2.edu.ph",
                 icon: "fa-chart-column",
                 color: "blue"
             }
         ];
 
+        const facilitiesData = [
+            { bcode: "COS", floor: 1, code: "COS 101", desc: "Dean's Office" },
+            { bcode: "COS", floor: 1, code: "COS 102", desc: "Staff Office" },
+            { bcode: "COS", floor: 1, code: "COS 103", desc: "COS Conference Room" },
+            { bcode: "COS", floor: 1, code: "COS 104", desc: "COS Smart Classroom" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 101", desc: "Chem Office Annex" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 102", desc: "261 Lecture Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 103", desc: "260 Lecture Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 104", desc: "259 Lecture Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 105", desc: "PMS (Specialized lab)" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 106", desc: "COS Council Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 107", desc: "FIMS (Specialized lab)" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 108", desc: "BONP (Specialized lab)" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 109", desc: "Instrument Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 110", desc: "Student Learning Center" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 111", desc: "CRL (laboratory)" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 112", desc: "AREL (SPecialized lab)" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 113", desc: "Department of Chemistry Office" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 114", desc: "Dept of Bio - Chairs Office" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 115", desc: "Pantry" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 116", desc: "ENTO-BIO (Specialized lab)" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 117", desc: "Water Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 118", desc: "Biotech Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 119", desc: "Micro Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 120", desc: "Biodive Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 121", desc: "Zoo Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 122", desc: "Quorum Sensing" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 123", desc: "Small Lecture Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 124", desc: "241 Medium Lecture Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 125", desc: "Reading Center" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 126", desc: "Bio-Assay Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 127", desc: "Terato Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 128", desc: "Hot Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 129", desc: "Gen lab 1" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 130", desc: "Gen Lab 2" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 131", desc: "Instrument Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 132", desc: "Gen Lab 3" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 133", desc: "Gen Lab 4" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 134", desc: "Gen Lab 5" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 135", desc: "Gen Lab 6" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 136", desc: "DESM Faculty Office" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 137", desc: "Conference Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 138", desc: "CGPC Office" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 139", desc: "Environmental Technology Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 140", desc: "228 AERIS (Specialized lab)" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 141", desc: "227C Bio-Environmental Chemistry Lab" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 142", desc: "227B Lecture Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 143", desc: "227A Lecture Room" },
+            { bcode: "COS-A", floor: 1, code: "COS-A 144", desc: "226 Lecture Room" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 101", desc: "Amphitheater" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 102", desc: "Office Room 1" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 103", desc: "Office Room 2" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 104", desc: "Office Room 3" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 105", desc: "Reading Center/Lecture Room" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 106", desc: "ICCEM Library" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 107", desc: "Lecture Room (OldISI)" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 108", desc: "Remote Sensing Lab" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 109", desc: "ICCEM Faculty Room" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 110", desc: "Head's Office" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 111", desc: "Deputy" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 112", desc: "Environmental Management Dept" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 113", desc: "TIM" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 114", desc: "Training Room" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 115", desc: "Biotech Lab A" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 116", desc: "Biotech Lab B" },
+            { bcode: "ICCEM", floor: 1, code: "ICCEM 117", desc: "Dark Room" },
+            { bcode: "CASS", floor: 1, code: "CASS 166", desc: "Chem Lab 225" },
+            { bcode: "CASS", floor: 1, code: "CASS 167", desc: "Chem Lab 224" },
+            { bcode: "CASS", floor: 1, code: "CASS 168", desc: "Preparation Room" },
+            { bcode: "CASS", floor: 1, code: "CASS 169", desc: "Chem Lab 223" },
+            { bcode: "CASS", floor: 1, code: "CASS 170", desc: "Chem Lab 222" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 114", desc: "Staff Office" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 113", desc: "286A Lecture Room" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 112", desc: "286B Lecture Room" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 111", desc: "287 Lecture Room" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 110", desc: "Math Center" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 109", desc: "285 Lab Room" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 108", desc: "Stat Faculty Room" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 107", desc: "283 Lab Room" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 106", desc: "Math Office" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 105", desc: "Instrument Room" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 104", desc: "Library-Math" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 103", desc: "Library-Stat" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 102", desc: "280 Lecture Room" },
+            { bcode: "RSTC", floor: 1, code: "RSTC 101", desc: "281 Lab Room" },
+            { bcode: "BIOAS", floor: 1, code: "BIOAS 101", desc: "Bio Assay Lab 2" },
+            { bcode: "IBS", floor: 1, code: "IBS 101", desc: "FACULTY ROOM" },
+            { bcode: "IBS", floor: 1, code: "IBS 102", desc: "Conference Room" },
+            { bcode: "IBS", floor: 1, code: "IBS 103", desc: "Satellite" },
+            { bcode: "IBS", floor: 1, code: "IBS 104", desc: "Seminar Room" },
+            { bcode: "IBS", floor: 1, code: "IBS 105", desc: "DOST OFFICE" },
+            { bcode: "IBS", floor: 1, code: "IBS 106", desc: "Tissue Culture Lab" },
+            { bcode: "BAL", floor: 1, code: "BAL 101", desc: "Lab 1" },
+            { bcode: "BAL", floor: 1, code: "BAL 102", desc: "Lab 2" },
+            { bcode: "BAL", floor: 1, code: "BAL 103", desc: "Lab 3" },
+            { bcode: "BAL", floor: 1, code: "BAL 104", desc: "Lab 4" },
+            { bcode: "BAL", floor: 1, code: "BAL 105", desc: "SPECIALIZED LAB ROOM" },
+            { bcode: "BAL", floor: 2, code: "BAL 205", desc: "Specialized Lab Room 1" },
+            { bcode: "BAL", floor: 2, code: "BAL 206", desc: "Specialized Lab Room 2" },
+            { bcode: "FFADL", floor: 1, code: "FFADL 101", desc: "Cryo lab" },
+            { bcode: "FFADL", floor: 1, code: "FFADL 102", desc: "Lecture Room" },
+            { bcode: "FFADL", floor: 1, code: "FFADL 103", desc: "ADB LAB" },
+            { bcode: "FFADL", floor: 1, code: "FFADL 104", desc: "Training Room (2nd floor)" },
+            { bcode: "FFADL", floor: 1, code: "FFADL 105", desc: "Specialized Lab 1 (2nd floor)" },
+            { bcode: "FFADL", floor: 1, code: "FFADL 106", desc: "Specialized Lab 2 (2nd floor)" }
+        ];
+
         // Lookup table for assistance categories: custom routing
         const sapEmailsConfig = {
             // In-Kind Assistances (CSSC)
-            "Borrowing of Materials": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Free Printing": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Free Test Booklets": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Free Coffee and Snacks": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
+            "Borrowing of Materials": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Free Printing": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Free Test Booklets": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Free Coffee and Snacks": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
 
             // Financial Assistance / Reimbursements
-            "Emergency Allowance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Emergency Transportation": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Emergency Food Subsidies": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Lodging/Dorm Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Inpatient Hospitalization Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Outpatient Hospitalization Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Legal Fee Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Psych Fee Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Cancer Therapy Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Physical Therapy Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Disability Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Burial Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Board Exam Review Assistance": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Project Support Grants for Student Orgs": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
-            "Academic Tutorial Support for Student Orgs": { to: "cssc@clsu.edu.ph", cc: [], isOsa: false },
+            "Emergency Allowance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Emergency Transportation": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Emergency Food Subsidies": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Lodging/Dorm Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Inpatient Hospitalization Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Outpatient Hospitalization Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Legal Fee Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Psych Fee Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Cancer Therapy Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Physical Therapy Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Disability Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Burial Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Board Exam Review Assistance": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Project Support Grants for Student Orgs": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
+            "Academic Tutorial Support for Student Orgs": { to: "cssc@clsu.edu.ph", cc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: false },
 
             // Student Services (OSA/ASHU)
             // Rules: to: osa@clsu.edu.ph, cc: cssc@clsu.edu.ph, unit-in-charge email, and sender's email. bcc: grevhen.quinton@clsu2.edu.ph
-            "Anti-Sexual Harassment Unit (ASHU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "irene.bustos@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "Anti-Sexual Harassment Unit (ASHU)" },
-            "Mental Health Counseling": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "ferlyn.reyes-colar@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "Mental Health Counseling" },
+            "Anti-Sexual Harassment Unit (ASHU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "irene.bustos@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "ASHU" },
+            "COS Guidance Counselor": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "ferlyn.reyes-colar@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "Mental Health Counseling" },
             "Career Development and Employment Services Unit (CDESU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "rochelleann.pararuan@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "CDESU" },
             "Guidance Services Unit (GSU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "angeli.austria@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "GSU" },
             "Student Organizations Unit (SOU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "ernesto.jimenez@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "SOU" },
-            "Information Management and Publication Unit (IMPU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "alexis.ramirez@clsu2.edu.ph"], isOsa: true, label: "IMPU" },
-            "Student Discipline and Reformation Unit (SDRU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "jayson.marzan@clsu2.edu.ph"], isOsa: true, label: "SDRU" }
+            "Information Management and Publication Unit (IMPU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "alexis.ramirez@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "IMPU" },
+            "Student Discipline and Reformation Unit (SDRU)": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph", "jayson.marzan@clsu2.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "SDRU" },
+            "OSA Wellness Hub": { to: "osa@clsu.edu.ph", cc: ["cssc@clsu.edu.ph"], bcc: ["grevhen.quinton@clsu2.edu.ph"], isOsa: true, label: "Wellness Hub" }
         };
 
         // Global file name references to pass to Email Composer
@@ -1296,12 +1510,30 @@
         let studentIdName = "Not Attached";
         let receiptsName = "Not Attached";
 
+        // Active Category for SAP Filtering
+        let activeSapCategory = 'all';
+
         // --- RENDERING LOGIC ---
 
-        function renderCSSCDirectory() {
+        function renderCSSCDirectory(filterQuery = "") {
             const container = document.getElementById('cssc-directory-grid');
-            container.innerHTML = csscDirectory.map(member => `
-                <div class="portal-card p-5 flex items-start gap-4">
+            const filtered = csscDirectory.filter(member => 
+                member.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
+                member.pos.toLowerCase().includes(filterQuery.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-slate-400">
+                        <i class="fa-solid fa-user-slash text-3xl mb-2 block"></i>
+                        No council members match your search criteria.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(member => `
+                <div class="portal-card p-5 flex items-start gap-4 fade-in">
                     <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 flex-shrink-0 border border-slate-200">
                         <i class="fa-solid fa-user"></i>
                     </div>
@@ -1314,6 +1546,11 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        function filterDirectory() {
+            const query = document.getElementById('directory-search').value;
+            renderCSSCDirectory(query);
         }
 
         function renderDepartmentCouncils() {
@@ -1355,12 +1592,48 @@
                     <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
                         <p class="text-[10px] font-bold uppercase text-slate-400 mb-1">${dept.headTitle}</p>
                         <p class="font-bold text-sm text-slate-700 mb-1">${dept.headName}</p>
-                        <a href="mailto:${dept.email}" class="text-xs text-${dept.color}-600 hover:underline inline-flex items-center gap-1">
-                            <i class="fa-solid fa-envelope"></i> ${dept.email}
+                        <a href="mailto:${dept.email}?cc=${dept.ccEmail}" class="text-xs text-${dept.color}-600 hover:underline inline-flex items-center gap-1">
+                            <i class="fa-solid fa-envelope"></i> ${dept.email} <span class="text-slate-400 text-[10px]">(cc Head)</span>
                         </a>
                     </div>
                 </div>
             `).join('');
+        }
+
+        // --- FACILITIES RENDER & SEARCH & FILTER LOGIC ---
+        function renderFacilities() {
+            const tbody = document.getElementById('facilities-table-body');
+            const noResults = document.getElementById('facilities-no-results');
+            const searchQuery = document.getElementById('facility-search').value.toLowerCase();
+            const selectedBcode = document.getElementById('facility-bcode-filter').value;
+            const selectedFloor = document.getElementById('facility-floor-filter').value;
+
+            const filtered = facilitiesData.filter(fac => {
+                const bcodeMatch = selectedBcode === 'ALL' || fac.bcode === selectedBcode;
+                const floorMatch = selectedFloor === 'ALL' || fac.floor.toString() === selectedFloor;
+                const searchMatch = fac.code.toLowerCase().includes(searchQuery) || fac.desc.toLowerCase().includes(searchQuery) || fac.bcode.toLowerCase().includes(searchQuery);
+                return bcodeMatch && floorMatch && searchMatch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            tbody.innerHTML = filtered.map(fac => `
+                <tr class="hover:bg-slate-50/50 transition-colors border-b border-slate-100">
+                    <td class="p-4 font-bold text-teal-800">${fac.bcode}</td>
+                    <td class="p-4">${fac.floor === 1 ? '1st Floor' : '2nd Floor'}</td>
+                    <td class="p-4 font-mono text-xs"><span class="px-2 py-1 bg-slate-100 rounded text-slate-700 border border-slate-200">${fac.code}</span></td>
+                    <td class="p-4">${fac.desc}</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterFacilities() {
+            renderFacilities();
         }
 
         // --- NAVIGATION LOGIC ---
@@ -1411,25 +1684,88 @@
             menu.classList.add('hidden');
         }
 
-        // --- COPY TO CLIPBOARD HELPER ---
-        function copyToClipboard(text) {
-            const tempInput = document.createElement("input");
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            tempInput.setSelectionRange(0, 99999); // Mobile compatibility
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
+        // --- REAL-TIME SAP FILTER & KEYWORD SEARCH SYSTEM ---
 
-            // Trigger premium custom UI toast notification instead of browser alert()
-            const toast = document.getElementById("copy-toast");
-            toast.classList.remove("opacity-0", "translate-y-4");
-            toast.classList.add("opacity-100", "translate-y-0");
+        function filterSapCategory(category) {
+            activeSapCategory = category;
             
-            setTimeout(() => {
-                toast.classList.remove("opacity-100", "translate-y-0");
-                toast.classList.add("opacity-0", "translate-y-4");
-            }, 2000);
+            // Toggle active styles on buttons
+            document.querySelectorAll('.sap-filter-btn').forEach(btn => {
+                btn.className = "sap-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all";
+                if (btn.getAttribute('onclick').includes(category)) {
+                    btn.className = "sap-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-teal-800 text-white shadow-sm transition-all";
+                }
+            });
+
+            filterSapServices();
+        }
+
+        function filterSapServices() {
+            const query = document.getElementById('sap-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.sap-card');
+            let matchesCount = 0;
+
+            cards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const title = card.querySelector('h5').innerText.toLowerCase();
+                const description = card.querySelector('p').innerText.toLowerCase();
+
+                const categoryMatch = (activeSapCategory === 'all' || category === activeSapCategory);
+                const queryMatch = (title.includes(query) || description.includes(query));
+
+                if (categoryMatch && queryMatch) {
+                    card.style.display = 'flex';
+                    matchesCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Handle no results state
+            let noResultsEl = document.getElementById('sap-no-results');
+            if (!noResultsEl) {
+                noResultsEl = document.createElement('div');
+                noResultsEl.id = 'sap-no-results';
+                noResultsEl.className = 'col-span-full py-16 text-center text-slate-400';
+                noResultsEl.innerHTML = `
+                    <i class="fa-solid fa-rectangle-list text-4xl mb-3 block"></i>
+                    No assistance programs match your search or filter settings.
+                `;
+                document.getElementById('sap-benefits-grid').appendChild(noResultsEl);
+            }
+
+            if (matchesCount === 0) {
+                noResultsEl.style.display = 'block';
+            } else {
+                noResultsEl.style.display = 'none';
+            }
+        }
+
+        // --- DRAG AND DROP UPLOAD HANDLERS ---
+
+        function handleDragOver(e, wrapperId) {
+            e.preventDefault();
+            document.getElementById(wrapperId).classList.add('dragover');
+        }
+
+        function handleDragLeave(e, wrapperId) {
+            e.preventDefault();
+            document.getElementById(wrapperId).classList.remove('dragover');
+        }
+
+        function handleDrop(e, inputId, wrapperId, labelId) {
+            e.preventDefault();
+            const wrapper = document.getElementById(wrapperId);
+            wrapper.classList.remove('dragover');
+
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            const input = document.getElementById(inputId);
+
+            if (files.length > 0) {
+                input.files = files; // Assign files to native file input
+                handleFileChange(input, wrapperId, labelId);
+            }
         }
 
         function handleFileChange(input, wrapperId, labelId) {
@@ -1447,9 +1783,9 @@
                 if (wrapperId === 'wrapper-receipts') receiptsName = fileName;
             } else {
                 wrapper.classList.remove('selected');
-                if (wrapperId === 'wrapper-form6') { label.innerText = 'Click to upload Form 6'; form6Name = "Not Attached"; }
-                if (wrapperId === 'wrapper-studentid') { label.innerText = 'Click to upload Student ID'; studentIdName = "Not Attached"; }
-                if (wrapperId === 'wrapper-receipts') { label.innerText = 'Click to upload Receipts / Letters'; receiptsName = "Not Attached"; }
+                if (wrapperId === 'wrapper-form6') { label.innerText = 'Drag or click to upload Form 6'; form6Name = "Not Attached"; }
+                if (wrapperId === 'wrapper-studentid') { label.innerText = 'Drag or click to upload Student ID'; studentIdName = "Not Attached"; }
+                if (wrapperId === 'wrapper-receipts') { label.innerText = 'Drag or click to upload Receipts'; receiptsName = "Not Attached"; }
             }
         }
 
@@ -1489,6 +1825,8 @@
 
 I am writing to formally request student assistance under the Ka-COSci Student Assistance Program (SAP). Please find my details below:
 
+--------------------------------------
+
 𝗦𝗧𝗨𝗗𝗘𝗡𝗧 𝗗𝗘𝗧𝗔𝗜𝗟𝗦
 Full Name:       ${name}
 Student Number:  ${idNum}
@@ -1503,10 +1841,10 @@ Justification:       ${justification}
 
 --------------------------------------
 
-𝗠𝗔𝗡𝗗𝗔𝗧𝗢𝗥𝗬 𝗔𝗧𝗧𝗔𝗖𝗛𝗠𝗘𝗡𝗧𝗦 (Please ensure attachment of physical files to this email)
+Supporting Files Attached Status:
 1. Student Registration Form (Form 6): [Attached File: ${form6Name}]
 2. Student ID Card (Front/Back): [Attached File: ${studentIdName}]
-3. Official Receipts & Support Attachments: [Attached File: ${receiptsName}]
+3. Supporting Receipts/Attachments (Optional): [Attached File: ${receiptsName}]
 
 --------------------------------------
 
@@ -1554,9 +1892,9 @@ Sent via Ka-COSci Web Portal`;
             ['wrapper-form6', 'wrapper-studentid', 'wrapper-receipts'].forEach(wId => {
                 document.getElementById(wId).classList.remove('selected');
             });
-            document.getElementById('label-form6').innerText = 'Click to upload Form 6';
-            document.getElementById('label-studentid').innerText = 'Click to upload Student ID';
-            document.getElementById('label-receipts').innerText = 'Click to upload Receipts / Letters';
+            document.getElementById('label-form6').innerText = 'Drag or click to upload Form 6';
+            document.getElementById('label-studentid').innerText = 'Drag or click to upload Student ID';
+            document.getElementById('label-receipts').innerText = 'Drag or click to upload Receipts';
 
             // Reset upload reference variables
             form6Name = "Not Attached";
@@ -1585,6 +1923,8 @@ Sent via Ka-COSci Web Portal`;
 
 You have received a new message through the Ka-COSci Web Feedback portal:
 
+--------------------------------------
+
 𝗖𝗢𝗡𝗧𝗔𝗖𝗧 𝗗𝗘𝗧𝗔𝗜𝗟𝗦
 Full Name:   ${name}
 CLSU Email:  ${email}
@@ -1602,7 +1942,10 @@ Sent via Ka-COSci Web Portal`;
             // Build mailto URL for direct send
             const mailtoUrl = `mailto:cssc@clsu.edu.ph?cc=grevhen.quinton@clsu2.edu.ph,${email}&subject=${encodeURIComponent(contactSubject)}&body=${encodeURIComponent(contactBody)}`;
 
-            // Apply mailto to Success trigger button
+            // Populate the preview panel in Contact Modal
+            document.getElementById('contact-cc-sender').innerText = `grevhen.quinton@clsu2.edu.ph, ${email}`;
+            document.getElementById('contact-subject-line').innerText = contactSubject;
+            document.getElementById('contact-body-content').innerText = contactBody;
             document.getElementById('contact-mailto-link').href = mailtoUrl;
 
             // Show Contact Success Modal
@@ -1620,6 +1963,7 @@ Sent via Ka-COSci Web Portal`;
             renderCSSCDirectory();
             renderDepartmentCouncils();
             renderDepartments();
+            renderFacilities();
         });
 
     </script>
