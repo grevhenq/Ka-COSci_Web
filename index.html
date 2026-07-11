@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ka-COSci Web</title>
+    <title>Ka-COSci Web | College of Science Student Council - CLSU, Inc.</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Link for PWA -->
+    <link rel="manifest" href="manifest.json">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Custom Tailwind Configuration & Styles -->
     <style>
         :root {
             /* Teal, Blue Green & White Theme Variables */
@@ -143,6 +140,16 @@
         .page-section.active { display: block; }
         .sub-section { display: none; }
         .sub-section.active { display: block; }
+
+        /* File Upload styling */
+        .custom-file-upload {
+            border: 2px dashed #CBD5E1;
+            transition: all 0.3s;
+        }
+        .custom-file-upload.selected {
+            border-color: #0d9488;
+            background-color: #f0fdfa;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -150,13 +157,19 @@
     <!-- Navigation -->
     <nav class="nav-glass fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative z-50">
-            <!-- Logo / Brand -->
+            <!-- Logo / Brand with NEW Hands and Erlenmeyer Flask Vector -->
             <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
-                <div class="w-10 h-10 rounded-full bg-teal-900 flex items-center justify-center text-white shadow-lg border-2 border-teal-100 overflow-hidden">
-                    <!-- Minimalist Eagle Shape SVG -->
-                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-1">
-                        <path d="M22 6c-3-2-6-2-9-1-1.5.5-3 1.5-4 3-2 3-2 6 0 9l-5 4c2-1 4-1 6-1h1c3 1 7 1 9-2 2-3 2-6 0-9 1 0 2-1 2-3z"></path>
-                        <circle cx="14" cy="8" r="1.5" fill="#0f766e"></circle>
+                <div class="w-10 h-10 rounded-full bg-teal-900 flex items-center justify-center text-white shadow-lg border-2 border-teal-100 overflow-hidden relative">
+                    <!-- Hands Cradling Erlenmeyer Flask SVG -->
+                    <svg viewBox="0 0 100 100" fill="currentColor" class="w-7 h-7 text-white">
+                        <!-- Flask Body & Neck -->
+                        <path d="M44,20 h12 v4 h-12 z M47,24 h6 v16 h-6 z M47,38 L25,75 A4,4 0 0,0 28,80 h44 A4,4 0 0,0 72,75 L53,38 z" />
+                        <!-- Liquid Bubble Details -->
+                        <path d="M30,70 Q50,67 70,70 L72,74 H28 z" opacity="0.4" />
+                        <!-- Left Hand Cradling -->
+                        <path d="M15,75 C15,55 32,47 44,58 C38,61 33,67 32,75 Z" opacity="0.85" />
+                        <!-- Right Hand Cradling -->
+                        <path d="M85,75 C85,55 68,47 56,58 C62,61 67,67 68,75 Z" opacity="0.85" />
                     </svg>
                 </div>
                 <div>
@@ -166,10 +179,11 @@
             </div>
 
             <!-- Desktop Menu -->
-            <div class="hidden md:flex gap-8">
+            <div class="hidden md:flex gap-6 lg:gap-8">
                 <button class="nav-link active uppercase text-xs tracking-wider" onclick="navigate('home')">Home</button>
                 <button class="nav-link uppercase text-xs tracking-wider" onclick="navigate('student-life')">Student Life</button>
                 <button class="nav-link uppercase text-xs tracking-wider" onclick="navigate('college')">The College</button>
+                <button class="nav-link uppercase text-xs tracking-wider" onclick="navigate('sap')">Ka-COSci SAP</button>
                 <button class="nav-link uppercase text-xs tracking-wider" onclick="navigate('transparency')">Transparency</button>
             </div>
 
@@ -179,12 +193,13 @@
             </button>
         </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-2xl absolute w-full left-0 top-20 z-40 transition-all duration-300">
             <div class="flex flex-col px-6 py-4 space-y-4">
                 <button class="text-left font-semibold text-slate-600 hover:text-teal-600 uppercase text-xs tracking-wider py-2 border-b border-slate-50" onclick="navigateMobile('home')">Home</button>
                 <button class="text-left font-semibold text-slate-600 hover:text-teal-600 uppercase text-xs tracking-wider py-2 border-b border-slate-50" onclick="navigateMobile('student-life')">Student Life</button>
                 <button class="text-left font-semibold text-slate-600 hover:text-teal-600 uppercase text-xs tracking-wider py-2 border-b border-slate-50" onclick="navigateMobile('college')">The College</button>
+                <button class="text-left font-semibold text-slate-600 hover:text-teal-600 uppercase text-xs tracking-wider py-2 border-b border-slate-50" onclick="navigateMobile('sap')">Ka-COSci SAP</button>
                 <button class="text-left font-semibold text-slate-600 hover:text-teal-600 uppercase text-xs tracking-wider py-2" onclick="navigateMobile('transparency')">Transparency</button>
             </div>
         </div>
@@ -229,9 +244,11 @@
                         <div class="border border-slate-100 rounded-2xl overflow-hidden bg-slate-50 shadow-sm hover:shadow-md transition-shadow">
                             <div class="p-5 flex items-center gap-4 border-b border-slate-100 bg-white">
                                 <div class="w-12 h-12 rounded-full bg-teal-900 flex items-center justify-center text-white border-2 border-teal-100 shadow-sm overflow-hidden">
-                                    <!-- Minimalist Eagle Shape SVG -->
-                                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 ml-1">
-                                        <path d="M22 6c-3-2-6-2-9-1-1.5.5-3 1.5-4 3-2 3-2 6 0 9l-5 4c2-1 4-1 6-1h1c3 1 7 1 9-2 2-3 2-6 0-9 1 0 2-1 2-3z"></path>
+                                    <svg viewBox="0 0 100 100" fill="currentColor" class="w-7 h-7 text-white">
+                                        <path d="M44,20 h12 v4 h-12 z M47,24 h6 v16 h-6 z M47,38 L25,75 A4,4 0 0,0 28,80 h44 A4,4 0 0,0 72,75 L53,38 z" />
+                                        <path d="M30,70 Q50,67 70,70 L72,74 H28 z" opacity="0.4" />
+                                        <path d="M15,75 C15,55 32,47 44,58 C38,61 33,67 32,75 Z" opacity="0.85" />
+                                        <path d="M85,75 C85,55 68,47 56,58 C62,61 67,67 68,75 Z" opacity="0.85" />
                                     </svg>
                                 </div>
                                 <div>
@@ -412,7 +429,6 @@
             </div>
         </section>
 
-
         <!-- ================= THE COLLEGE PAGE ================= -->
         <section id="page-college" class="page-section bg-slate-50 min-h-screen pb-20">
             <div class="bg-slate-900 pt-20 pb-24 border-b-4 border-cyan-500 relative overflow-hidden">
@@ -487,6 +503,278 @@
             </div>
         </section>
 
+        <!-- ================= KA-COSCI SAP (STUDENT ASSISTANCE PROGRAM) ================= -->
+        <section id="page-sap" class="page-section bg-slate-50 min-h-screen pb-20">
+            <div class="bg-gradient-to-br from-teal-800 to-teal-950 pt-20 pb-24 border-b-4 border-cyan-500 relative">
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-700/50 via-transparent to-transparent"></div>
+                <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+                    <span class="px-4 py-1.5 bg-cyan-500/10 border border-cyan-400/30 rounded-full text-xs font-bold uppercase tracking-widest text-cyan-200 mb-4 inline-block">CSSC Welfare Services</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-black text-white mb-4">Ka-COSci Student Assistance Program (SAP)</h2>
+                    <p class="text-teal-100 max-w-xl mx-auto font-light">The official portal of the College of Science Student Council to coordinate, evaluate, and provide aid across basic and specialized welfare sectors.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 -mt-10 relative z-10">
+                <!-- Sub Navigation tabs for SAP -->
+                <div class="bg-white rounded-2xl shadow-lg p-3 flex flex-wrap gap-2 justify-center border border-slate-100 mb-10">
+                    <button class="sub-tab active" onclick="switchSubTab('sap', 'sap-services')">SAP Guidelines & Benefits</button>
+                    <button class="sub-tab" onclick="switchSubTab('sap', 'sap-form')">Online Assistance Form</button>
+                </div>
+
+                <!-- Sub-sections container -->
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-12">
+                    
+                    <!-- SAP GUIDELINES -->
+                    <div id="sub-sap-services" class="sub-section active fade-in">
+                        <div class="mb-12 border-b border-slate-100 pb-6">
+                            <h3 class="text-2xl font-display font-black text-slate-800 flex items-center gap-3">
+                                <i class="fa-solid fa-clipboard-list text-teal-600"></i> Available Assistance Categories
+                            </h3>
+                            <p class="text-sm text-slate-500 mt-2">Every student of the College of Science is entitled to request support under the following council welfare channels.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Row 1 -->
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-box-archive text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">CSSC Borrowing of Materials</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Temporary loan services for essential science equipment, lab tools, and council materials.</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-hospital text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">In-Patient Hospitalization</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Financial medical grants designed to cushion charges for hospital stays and clinical surgeries.</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-stethoscope text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Out-Patient Hospitalization</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Assistance for immediate clinic consultations, lab tests, medications, and minor check-ups.</p>
+                                </div>
+                            </div>
+
+                            <!-- Row 2 -->
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-gavel text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Legal Assistance</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Direct linkage and supportive structural representation on legal concerns within campus parameters.</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-brain text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Psych Assistance</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Compassionate linkage and financial endorsement to mental health counsel and services.</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0">
+                                    <!-- Customized physical therapy vector icon -->
+                                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-teal-600">
+                                        <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Physical Therapy</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Subsidy for recovering students who require physical therapy or rehabilitative treatments.</p>
+                                </div>
+                            </div>
+
+                            <!-- Row 3 -->
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-wheelchair text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Disablement Assistance</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Tailored campus modifications, aids, and services for differently-abled CoSci students.</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-monument text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Burial Assistance</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Supportive funding allocated for students coping with the death of immediate family members.</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-kit-medical text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Emergency Allowance</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Immediate monetary help for unforeseen disasters, fires, or natural crisis scenarios.</p>
+                                </div>
+                            </div>
+
+                            <!-- Row 4 -->
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-graduation-cap text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Board Exam Review Aid</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Page support, review resources, and registration fee subsidies for student board examinees.</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-people-group text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Project Support Grants</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Financial help for official programs arranged by science department councils or recognized student bodies.</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-book-open-reader text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Tutorial Support</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Assistance in funding peer tutoring networks and study resources for department organizations.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 text-center">
+                            <button onclick="switchSubTab('sap', 'sap-form')" class="px-8 py-4 bg-teal-600 text-white font-black rounded-xl hover:bg-teal-700 transition-all shadow-md inline-flex items-center gap-2">
+                                Launch Application Form <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SAP FORM -->
+                    <div id="sub-sap-form" class="sub-section fade-in">
+                        <div class="mb-10 border-b border-slate-100 pb-6">
+                            <h3 class="text-2xl font-display font-black text-slate-800 flex items-center gap-3">
+                                <i class="fa-solid fa-file-pen text-teal-600"></i> Online Assistance Request
+                            </h3>
+                            <p class="text-sm text-slate-500 mt-2">Please complete the form below and attach required academic and identifying credentials for immediate council appraisal.</p>
+                        </div>
+
+                        <form id="sapRequestForm" onsubmit="handleSapSubmission(event)" class="space-y-8">
+                            <!-- Section 1: Personal Details -->
+                            <div>
+                                <h4 class="text-xs font-bold uppercase tracking-widest text-teal-600 mb-4 flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-teal-50 flex items-center justify-center border border-teal-200">1</span> Personal & Academic Information
+                                </h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 mb-2">Full Name <span class="text-red-500">*</span></label>
+                                        <input type="text" id="sap-name" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all" placeholder="Juan Dela Cruz">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 mb-2">Student Number <span class="text-red-500">*</span></label>
+                                        <input type="text" id="sap-id-num" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all" placeholder="XX-XXXX">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 mb-2">College of Science Program <span class="text-red-500">*</span></label>
+                                        <select id="sap-program" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all">
+                                            <option value="">-- Choose Program --</option>
+                                            <option value="BS Biology">BS Biology</option>
+                                            <option value="BS Chemistry">BS Chemistry</option>
+                                            <option value="BS Environmental Science">BS Environmental Science</option>
+                                            <option value="BS Meteorology">BS Meteorology</option>
+                                            <option value="BS Mathematics">BS Mathematics</option>
+                                            <option value="BS Statistics">BS Statistics</option>
+                                            <option value="Graduate Program (MS/PhD)">Graduate Program (MS/PhD)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 mb-2">Official Email Address <span class="text-red-500">*</span></label>
+                                        <input type="email" id="sap-email" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all" placeholder="name@clsu2.edu.ph">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 2: Assistance Type -->
+                            <div>
+                                <h4 class="text-xs font-bold uppercase tracking-widest text-teal-600 mb-4 flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-teal-50 flex items-center justify-center border border-teal-200">2</span> Request Details
+                                </h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 mb-2">Requested Welfare Category <span class="text-red-500">*</span></label>
+                                        <select id="sap-type" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all">
+                                            <option value="">-- Select Assistance Channel --</option>
+                                            <option value="Borrowing of materials from the CSSC">Borrowing of materials from the CSSC</option>
+                                            <option value="Financial assistance for in-patient hospitalization">Financial assistance for in-patient hospitalization</option>
+                                            <option value="Financial assistance for out-patient hospitalization">Financial assistance for out-patient hospitalization</option>
+                                            <option value="Legal assistance">Legal assistance</option>
+                                            <option value="Psych assistance">Psych assistance</option>
+                                            <option value="Physical therapy assistance">Physical therapy assistance</option>
+                                            <option value="Emergency allowance">Emergency allowance</option>
+                                            <option value="Burial assistance">Burial assistance</option>
+                                            <option value="Disability assistance">Disability assistance</option>
+                                            <option value="Project activities for department council and student orgs">Project activities for department council and student orgs</option>
+                                            <option value="Review assistance for board exam">Review assistance for board exam</option>
+                                            <option value="Tutorial activities for student organizations">Tutorial activities for student organizations</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-600 mb-2">Brief Narrative Justification <span class="text-red-500">*</span></label>
+                                        <textarea id="sap-justification" required rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all" placeholder="Please describe details of the assistance required and itemize support materials..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 3: Document Uploads -->
+                            <div>
+                                <h4 class="text-xs font-bold uppercase tracking-widest text-teal-600 mb-4 flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-teal-50 flex items-center justify-center border border-teal-200">3</span> Mandatory Supporting Files
+                                </h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    
+                                    <!-- Form 6 -->
+                                    <div class="flex flex-col">
+                                        <label class="text-xs font-bold text-slate-600 mb-2">Student Registration Form (Form 6) <span class="text-red-500">*</span></label>
+                                        <div id="wrapper-form6" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center">
+                                            <input type="file" id="file-form6" required class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileChange(this, 'wrapper-form6', 'label-form6')">
+                                            <i class="fa-solid fa-file-invoice text-3xl text-slate-400 mb-2"></i>
+                                            <p id="label-form6" class="text-xs font-bold text-slate-600">Click to upload Form 6</p>
+                                            <span class="text-[10px] text-slate-400 mt-1">PDF, JPG or PNG format</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Student ID -->
+                                    <div class="flex flex-col">
+                                        <label class="text-xs font-bold text-slate-600 mb-2">Student ID Card (Front/Back) <span class="text-red-500">*</span></label>
+                                        <div id="wrapper-studentid" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center">
+                                            <input type="file" id="file-studentid" required class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileChange(this, 'wrapper-studentid', 'label-studentid')">
+                                            <i class="fa-solid fa-address-card text-3xl text-slate-400 mb-2"></i>
+                                            <p id="label-studentid" class="text-xs font-bold text-slate-600">Click to upload Student ID</p>
+                                            <span class="text-[10px] text-slate-400 mt-1">Image or PDF format</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Official Receipts / Attachments -->
+                                    <div class="flex flex-col">
+                                        <label class="text-xs font-bold text-slate-600 mb-2">Official Receipts & Support Attachments <span class="text-red-500">*</span></label>
+                                        <div id="wrapper-receipts" class="custom-file-upload relative flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all text-center">
+                                            <input type="file" id="file-receipts" required class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileChange(this, 'wrapper-receipts', 'label-receipts')">
+                                            <i class="fa-solid fa-receipt text-3xl text-slate-400 mb-2"></i>
+                                            <p id="label-receipts" class="text-xs font-bold text-slate-600">Click to upload Receipts / Letters</p>
+                                            <span class="text-[10px] text-slate-400 mt-1">Zipped folder or compiled PDF</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="bg-teal-50 border border-teal-100 p-4 rounded-xl flex gap-3 text-teal-800 text-xs">
+                                <i class="fa-solid fa-circle-info text-teal-600 text-lg flex-shrink-0 mt-0.5"></i>
+                                <p class="leading-relaxed">By submitting this application form, I confirm that the details provided are correct and authentic. I authorize the <strong>College of Science Student Council - CLSU, Inc.</strong> to handle and evaluate my personal records with strict compliance under the Data Privacy Act.</p>
+                            </div>
+
+                            <!-- Submit Action -->
+                            <div class="text-right">
+                                <button type="submit" class="px-8 py-4 bg-teal-700 text-white font-black rounded-xl hover:bg-teal-800 transition-all shadow-md inline-flex items-center gap-2">
+                                    Send SAP Request <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
         <!-- ================= TRANSPARENCY PAGE ================= -->
         <section id="page-transparency" class="page-section bg-slate-50 min-h-screen pb-20">
             <div class="bg-teal-800 pt-20 pb-24 border-b-4 border-cyan-500">
@@ -553,15 +841,54 @@
 
     </main>
 
-    <!-- Footer -->
+    <!-- Automated Email Dispatch Hub Modal -->
+    <div id="sap-success-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSapModal()"></div>
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full relative z-10 border border-teal-100 shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100 flex-shrink-0">
+                <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-2xl border border-teal-200">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-black text-xl text-slate-800">Assistance Request Compiled!</h3>
+                    <p class="text-xs text-slate-500">Ready to dispatch to the College of Science Student Council (CSSC)</p>
+                </div>
+            </div>
+
+            <!-- Email Transmission Screen -->
+            <div class="flex-grow overflow-y-auto bg-slate-900 text-slate-300 rounded-2xl p-5 font-mono text-xs space-y-4 shadow-inner border border-slate-800 leading-relaxed mb-6">
+                <div class="border-b border-slate-800 pb-3 space-y-1">
+                    <p><span class="text-teal-400 font-bold">To:</span> cssc@clsu.edu.ph</p>
+                    <p><span class="text-teal-400 font-bold">CC:</span> grevhen.quinton@clsu2.edu.ph</p>
+                    <p><span class="text-teal-400 font-bold">CC:</span> <span id="email-cc-sender" class="text-cyan-400">sender@clsu2.edu.ph</span></p>
+                    <p><span class="text-teal-400 font-bold">Subject:</span> <span id="email-subject-line" class="text-white"></span></p>
+                </div>
+                <div class="whitespace-pre-wrap whitespace-pre text-slate-300 leading-relaxed" id="email-body-content"></div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+                <a id="email-mailto-link" href="#" class="flex-1 py-4 bg-teal-600 hover:bg-teal-700 text-white font-black rounded-xl text-center transition-all shadow-md inline-flex items-center justify-center gap-2">
+                    Open Native Email Client <i class="fa-solid fa-envelope-open-text"></i>
+                </a>
+                <button onclick="closeSapModal()" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all">
+                    Acknowledge & Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with NEW Vector Eagle Eye -->
     <footer class="bg-slate-900 text-slate-400 py-10 text-center border-t border-slate-800 mt-auto">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-center gap-3 mb-6">
-                <!-- Eagle Head Footer Icon -->
-                <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 overflow-hidden">
-                    <svg viewBox="0 0 24 24" fill="#ffffff" class="w-6 h-6 text-teal-600">
-                        <path d="M22 6c-3-2-6-2-9-1-1.5.5-3 1.5-4 3-2 3-2 6 0 9l-5 4c2-1 4-1 6-1h1c3 1 7 1 9-2 2-3 2-6 0-9 1 0 2-1 2-3z"></path>
-                        <circle cx="14" cy="8" r="1.5" fill="currentColor"></circle>
+                <!-- Eagle Eye Footer Icon -->
+                <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 overflow-hidden text-white">
+                    <svg viewBox="0 0 100 100" fill="currentColor" class="w-5 h-5 text-white">
+                        <path d="M44,20 h12 v4 h-12 z M47,24 h6 v16 h-6 z M47,38 L25,75 A4,4 0 0,0 28,80 h44 A4,4 0 0,0 72,75 L53,38 z" />
+                        <path d="M30,70 Q50,67 70,70 L72,74 H28 z" opacity="0.4" />
+                        <path d="M15,75 C15,55 32,47 44,58 C38,61 33,67 32,75 Z" opacity="0.85" />
+                        <path d="M85,75 C85,55 68,47 56,58 C62,61 67,67 68,75 Z" opacity="0.85" />
                     </svg>
                 </div>
                 <span class="font-display font-bold text-white tracking-widest">Ka-COSci Web</span>
@@ -648,6 +975,11 @@
                 color: "blue"
             }
         ];
+
+        // Global file name references to pass to Email Composer
+        let form6Name = "Not Attached";
+        let studentIdName = "Not Attached";
+        let receiptsName = "Not Attached";
 
         // --- RENDERING LOGIC ---
 
@@ -762,6 +1094,110 @@
             // Hide menu after navigating on mobile
             const menu = document.getElementById('mobile-menu');
             menu.classList.add('hidden');
+        }
+
+        // --- SAP FILE HANDLING & UPLOAD VISUALS ---
+
+        function handleFileChange(input, wrapperId, labelId) {
+            const wrapper = document.getElementById(wrapperId);
+            const label = document.getElementById(labelId);
+            
+            if (input.files && input.files[0]) {
+                const fileName = input.files[0].name;
+                wrapper.classList.add('selected');
+                label.innerHTML = `<span class="text-teal-700 font-bold block truncate max-w-[200px]"><i class="fa-solid fa-circle-check mr-1 text-teal-600"></i> ${fileName}</span>`;
+                
+                // Keep file names updated for SMTP payload
+                if (wrapperId === 'wrapper-form6') form6Name = fileName;
+                if (wrapperId === 'wrapper-studentid') studentIdName = fileName;
+                if (wrapperId === 'wrapper-receipts') receiptsName = fileName;
+            } else {
+                wrapper.classList.remove('selected');
+                if (wrapperId === 'wrapper-form6') { label.innerText = 'Click to upload Form 6'; form6Name = "Not Attached"; }
+                if (wrapperId === 'wrapper-studentid') { label.innerText = 'Click to upload Student ID'; studentIdName = "Not Attached"; }
+                if (wrapperId === 'wrapper-receipts') { label.innerText = 'Click to upload Receipts / Letters'; receiptsName = "Not Attached"; }
+            }
+        }
+
+        // --- STREAMING_CHUNK: Processing email metadata compilation on submit... ---
+        function handleSapSubmission(event) {
+            event.preventDefault();
+            
+            // Get form fields
+            const name = document.getElementById('sap-name').value;
+            const idNum = document.getElementById('sap-id-num').value;
+            const program = document.getElementById('sap-program').value;
+            const email = document.getElementById('sap-email').value;
+            const sapType = document.getElementById('sap-type').value;
+            const justification = document.getElementById('sap-justification').value;
+
+            // Compile dynamic mailto URL elements
+            const emailSubject = `[Ka-COSci SAP Request] - ${sapType} - ${name}`;
+            const emailBody = `Dear College of Science Student Council (CSSC),
+
+I am writing to formally request student assistance under the Ka-COSci Student Assistance Program (SAP). Please find my details below:
+
+-- STUDENT DETAILS --
+
+Full Name: ${name}
+Student Number: ${idNum}
+Science Program: ${program}
+Email Address: ${email}
+
+-- WELFARE DETAILS --
+
+Requested Category: ${sapType}
+Narrative Justification:
+"${justification}"
+
+-- MANDATORY ATTACHMENTS (Please ensure attachement of files to this email) --
+
+1. Student Registration Form (Form 6): [Attached File: ${form6Name}]
+2. Student ID Card (Front/Back): [Attached File: ${studentIdName}]
+3. Official Receipts & Support Attachments: [Attached File: ${receiptsName}]
+
+By sending this email request, I confirm my explicit consent under the Data Privacy Act to share these credentials.
+
+Respectfully yours,
+${name}`;
+
+            // Build deep-link mailto URL
+            const mailtoUrl = `mailto:cssc@clsu.edu.ph?cc=grevhen.quinton@clsu2.edu.ph,${email}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+            // Populate preview panel in the Email Dispatch Hub Modal
+            document.getElementById('email-cc-sender').innerText = email;
+            document.getElementById('email-subject-line').innerText = emailSubject;
+            document.getElementById('email-body-content').innerText = emailBody;
+            document.getElementById('email-mailto-link').href = mailtoUrl;
+
+            // Show custom Email Dispatch Hub Modal
+            const modal = document.getElementById('sap-success-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeSapModal() {
+            // Hide Modal
+            document.getElementById('sap-success-modal').classList.add('hidden');
+
+            // Reset Form fields
+            document.getElementById('sapRequestForm').reset();
+            
+            // Clear Custom Upload Classes
+            ['wrapper-form6', 'wrapper-studentid', 'wrapper-receipts'].forEach(wId => {
+                document.getElementById(wId).classList.remove('selected');
+            });
+            document.getElementById('label-form6').innerText = 'Click to upload Form 6';
+            document.getElementById('label-studentid').innerText = 'Click to upload Student ID';
+            document.getElementById('label-receipts').innerText = 'Click to upload Receipts / Letters';
+
+            // Reset upload reference variables
+            form6Name = "Not Attached";
+            studentIdName = "Not Attached";
+            receiptsName = "Not Attached";
+
+            // Return user to top guidelines
+            switchSubTab('sap', 'sap-services');
+            navigate('sap');
         }
 
         // Initialize on load
