@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ka-COSci Web | College of Science Student Council - CLSU, Inc.</title>
+    <title>Ka-COSci Web.</title>
     
     <!-- Link for PWA -->
     <link rel="manifest" href="manifest.json">
@@ -157,19 +157,19 @@
     <!-- Navigation -->
     <nav class="nav-glass fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative z-50">
-            <!-- Logo / Brand with NEW Hands and Erlenmeyer Flask Vector -->
+            <!-- Logo / Brand with NEW Flask & Bar Chart Vector -->
             <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
                 <div class="w-10 h-10 rounded-full bg-teal-900 flex items-center justify-center text-white shadow-lg border-2 border-teal-100 overflow-hidden relative">
-                    <!-- Hands Cradling Erlenmeyer Flask SVG -->
-                    <svg viewBox="0 0 100 100" fill="currentColor" class="w-7 h-7 text-white">
-                        <!-- Flask Body & Neck -->
-                        <path d="M44,20 h12 v4 h-12 z M47,24 h6 v16 h-6 z M47,38 L25,75 A4,4 0 0,0 28,80 h44 A4,4 0 0,0 72,75 L53,38 z" />
-                        <!-- Liquid Bubble Details -->
-                        <path d="M30,70 Q50,67 70,70 L72,74 H28 z" opacity="0.4" />
-                        <!-- Left Hand Cradling -->
-                        <path d="M15,75 C15,55 32,47 44,58 C38,61 33,67 32,75 Z" opacity="0.85" />
-                        <!-- Right Hand Cradling -->
-                        <path d="M85,75 C85,55 68,47 56,58 C62,61 67,67 68,75 Z" opacity="0.85" />
+                    <!-- Premium One-Color Flask with Bar Chart SVG Logo -->
+                    <svg viewBox="0 0 100 100" fill="currentColor" class="w-6 h-6 text-white">
+                        <!-- Erlenmeyer Flask Rim & Neck -->
+                        <path d="M36,18 h28 v6 h-28 z M44,24 h12 v14 h-12 z" />
+                        <!-- Flask Outer Body (Geometric) -->
+                        <path d="M44,34 L21,76 A5,5 0 0,0 25,82 h50 A5,5 0 0,0 79,76 L56,34 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+                        <!-- Data Bar Chart inside Liquid Base -->
+                        <rect x="33" y="62" width="7" height="15" rx="1" />
+                        <rect x="46" y="52" width="8" height="25" rx="1" />
+                        <rect x="60" y="58" width="7" height="19" rx="1" />
                     </svg>
                 </div>
                 <div>
@@ -244,11 +244,12 @@
                         <div class="border border-slate-100 rounded-2xl overflow-hidden bg-slate-50 shadow-sm hover:shadow-md transition-shadow">
                             <div class="p-5 flex items-center gap-4 border-b border-slate-100 bg-white">
                                 <div class="w-12 h-12 rounded-full bg-teal-900 flex items-center justify-center text-white border-2 border-teal-100 shadow-sm overflow-hidden">
-                                    <svg viewBox="0 0 100 100" fill="currentColor" class="w-7 h-7 text-white">
-                                        <path d="M44,20 h12 v4 h-12 z M47,24 h6 v16 h-6 z M47,38 L25,75 A4,4 0 0,0 28,80 h44 A4,4 0 0,0 72,75 L53,38 z" />
-                                        <path d="M30,70 Q50,67 70,70 L72,74 H28 z" opacity="0.4" />
-                                        <path d="M15,75 C15,55 32,47 44,58 C38,61 33,67 32,75 Z" opacity="0.85" />
-                                        <path d="M85,75 C85,55 68,47 56,58 C62,61 67,67 68,75 Z" opacity="0.85" />
+                                    <svg viewBox="0 0 100 100" fill="currentColor" class="w-6 h-6 text-white">
+                                        <path d="M36,18 h28 v6 h-28 z M44,24 h12 v14 h-12 z" />
+                                        <path d="M44,34 L21,76 A5,5 0 0,0 25,82 h50 A5,5 0 0,0 79,76 L56,34 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+                                        <rect x="33" y="62" width="7" height="15" rx="1" />
+                                        <rect x="46" y="52" width="8" height="25" rx="1" />
+                                        <rect x="60" y="58" width="7" height="19" rx="1" />
                                     </svg>
                                 </div>
                                 <div>
@@ -278,7 +279,7 @@
                         </div>
                     </div>
 
-                    <!-- COSmmunity Link Card -->
+                    <!-- COSmmunity Link Card & Quick Actions -->
                     <div class="flex flex-col gap-6">
                         <div class="bg-gradient-to-br from-teal-600 to-cyan-600 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden group h-full flex flex-col justify-center">
                             <!-- Background pattern -->
@@ -300,6 +301,57 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- NEW: Homepage Feedback & Contact Us Form -->
+                <div class="mt-16 bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                    <div class="border-b border-slate-100 pb-4 mb-6">
+                        <h3 class="font-display font-black text-2xl text-slate-800 flex items-center gap-3">
+                            <i class="fa-solid fa-comments text-teal-600"></i> Feedback / Contact Us
+                        </h3>
+                        <p class="text-sm text-slate-500 mt-1">Have concerns, questions, or ideas for the CSSC? Send us your message directly!</p>
+                    </div>
+
+                    <form id="contactForm" onsubmit="handleContactSubmission(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-2">Full Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="contact-name" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all" placeholder="Juana Dela Cruz">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-2">CLSU Email Address <span class="text-red-500">*</span></label>
+                                <input type="email" id="contact-email" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all" placeholder="juanadelacruz@clsu2.edu.ph">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-2">Subject / Topic <span class="text-red-500">*</span></label>
+                                <input type="text" id="contact-subject" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all" placeholder="e.g. Suggestion for upcoming CoSci Fest">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-2">Feedback Category <span class="text-red-500">*</span></label>
+                                <select id="contact-category" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all">
+                                    <option value="">-- Choose Category --</option>
+                                    <option value="General Inquiry">General Inquiry</option>
+                                    <option value="Event Suggestion">Program/Activity Suggestion</option>
+                                    <option value="Council Feedback / Concern">Council Feedback/Concern</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Your Message <span class="text-red-500">*</span></label>
+                            <textarea id="contact-message" required rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all" placeholder="Please write your detailed feedback or concern here..."></textarea>
+                        </div>
+
+                        <div class="text-right">
+                            <button type="submit" class="px-8 py-3.5 bg-teal-600 hover:bg-teal-700 text-white font-black rounded-xl transition-all shadow-md inline-flex items-center gap-2">
+                                Submit Message <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -429,6 +481,7 @@
             </div>
         </section>
 
+
         <!-- ================= THE COLLEGE PAGE ================= -->
         <section id="page-college" class="page-section bg-slate-50 min-h-screen pb-20">
             <div class="bg-slate-900 pt-20 pb-24 border-b-4 border-cyan-500 relative overflow-hidden">
@@ -436,7 +489,7 @@
                 <div class="absolute top-0 right-0 w-96 h-96 bg-teal-900 rounded-full blur-3xl opacity-30 -mr-20 -mt-20"></div>
                 <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
                     <h2 class="text-4xl font-display font-black text-white mb-4">The College</h2>
-                    <p class="text-slate-300">Meet the administration and explore our academic departments.</p>
+                    <p class="text-slate-300">Meet the COS Administration and explore our academic departments.</p>
                 </div>
             </div>
 
@@ -573,14 +626,11 @@
                                 </div>
                             </div>
                             <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0">
-                                    <!-- Customized physical therapy vector icon -->
-                                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-teal-600">
-                                        <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
-                                    </svg>
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm fill-current flex-shrink-0">
+                                    <i class="fa-solid fa-person-walking-with-cane text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800 text-base mb-1">Physical Therapy</h4>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Physical Therapy Assistance</h4>
                                     <p class="text-xs text-slate-500 leading-relaxed">Subsidy for recovering students who require physical therapy or rehabilitative treatments.</p>
                                 </div>
                             </div>
@@ -612,7 +662,7 @@
                             <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
                                 <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-graduation-cap text-xl"></i></div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800 text-base mb-1">Board Exam Review Aid</h4>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Board Exam Review Assistance</h4>
                                     <p class="text-xs text-slate-500 leading-relaxed">Page support, review resources, and registration fee subsidies for student board examinees.</p>
                                 </div>
                             </div>
@@ -620,14 +670,14 @@
                                 <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-people-group text-xl"></i></div>
                                 <div>
                                     <h4 class="font-bold text-slate-800 text-base mb-1">Project Support Grants</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed">Financial help for official programs arranged by science department councils or recognized student bodies.</p>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Financial help for official programs arranged by science department councils or recognized student organizations.</p>
                                 </div>
                             </div>
                             <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-teal-50/30 hover:border-teal-200 transition-all flex gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm flex-shrink-0"><i class="fa-solid fa-book-open-reader text-xl"></i></div>
+                                <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-teal-600 shadow-sm fill-current flex-shrink-0"><i class="fa-solid fa-book-open-reader text-xl"></i></div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800 text-base mb-1">Tutorial Support</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed">Assistance in funding peer tutoring networks and study resources for department organizations.</p>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">Academic Tutorial Support</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Assistance in funding peer tutoring networks and study resources for student organizations.</p>
                                 </div>
                             </div>
                         </div>
@@ -694,17 +744,17 @@
                                         <select id="sap-type" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-slate-700 font-medium transition-all">
                                             <option value="">-- Select Assistance Channel --</option>
                                             <option value="Borrowing of materials from the CSSC">Borrowing of materials from the CSSC</option>
-                                            <option value="Financial assistance for in-patient hospitalization">Financial assistance for in-patient hospitalization</option>
-                                            <option value="Financial assistance for out-patient hospitalization">Financial assistance for out-patient hospitalization</option>
-                                            <option value="Legal assistance">Legal assistance</option>
-                                            <option value="Psych assistance">Psych assistance</option>
-                                            <option value="Physical therapy assistance">Physical therapy assistance</option>
-                                            <option value="Emergency allowance">Emergency allowance</option>
-                                            <option value="Burial assistance">Burial assistance</option>
-                                            <option value="Disability assistance">Disability assistance</option>
-                                            <option value="Project activities for department council and student orgs">Project activities for department council and student orgs</option>
-                                            <option value="Review assistance for board exam">Review assistance for board exam</option>
-                                            <option value="Tutorial activities for student organizations">Tutorial activities for student organizations</option>
+                                            <option value="In-patient Hospitalization Assitance">In-patient Hospitalization Assitance</option>
+                                            <option value="Out-patient Hospitalization Assitance">Out-patient Hospitalization Assitance</option>
+                                            <option value="Legal Assistance">Legal Assistance</option>
+                                            <option value="Psych Assistance">Psych Assistance</option>
+                                            <option value="Physical Therapy Assistance">Physical Therapy Assistance</option>
+                                            <option value="Disabilement Assistance">Disability Assistance</option>
+                                            <option value="Burial Assistance">Burial Assistance</option>
+                                            <option value="Emergency Allowance">Emergency Allowance</option>
+                                            <option value="Board Exam Review Assistance">Board Exam Review Assistance</option>
+                                            <option value="Project Support Grants for Student Orgs">Project Support Grants for Student Orgs</option>
+                                            <option value="Academic Tutorial Support for Student Orgs">Academic Tutorial Support for Student Orgs</option>
                                         </select>
                                     </div>
                                     <div>
@@ -750,7 +800,7 @@
                                             <input type="file" id="file-receipts" required class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileChange(this, 'wrapper-receipts', 'label-receipts')">
                                             <i class="fa-solid fa-receipt text-3xl text-slate-400 mb-2"></i>
                                             <p id="label-receipts" class="text-xs font-bold text-slate-600">Click to upload Receipts / Letters</p>
-                                            <span class="text-[10px] text-slate-400 mt-1">Zipped folder or compiled PDF</span>
+                                            <span class="text-[10px] text-slate-400 mt-1">Compiled PDF</span>
                                         </div>
                                     </div>
 
@@ -841,7 +891,7 @@
 
     </main>
 
-    <!-- Automated Email Dispatch Hub Modal -->
+    <!-- Automated Email Dispatch Hub Modal (Displays before native email client launch) -->
     <div id="sap-success-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSapModal()"></div>
         <div class="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full relative z-10 border border-teal-100 shadow-2xl flex flex-col max-h-[90vh]">
@@ -863,13 +913,13 @@
                     <p><span class="text-teal-400 font-bold">CC:</span> <span id="email-cc-sender" class="text-cyan-400">sender@clsu2.edu.ph</span></p>
                     <p><span class="text-teal-400 font-bold">Subject:</span> <span id="email-subject-line" class="text-white"></span></p>
                 </div>
-                <div class="whitespace-pre-wrap whitespace-pre text-slate-300 leading-relaxed" id="email-body-content"></div>
+                <div class="whitespace-pre-wrap text-slate-300 leading-relaxed" id="email-body-content"></div>
             </div>
 
             <!-- Action buttons -->
             <div class="flex flex-col sm:flex-row gap-3 flex-shrink-0">
                 <a id="email-mailto-link" href="#" class="flex-1 py-4 bg-teal-600 hover:bg-teal-700 text-white font-black rounded-xl text-center transition-all shadow-md inline-flex items-center justify-center gap-2">
-                    Open Native Email Client <i class="fa-solid fa-envelope-open-text"></i>
+                    Send Email Now <i class="fa-solid fa-envelope-open-text"></i>
                 </a>
                 <button onclick="closeSapModal()" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all">
                     Acknowledge & Close
@@ -878,17 +928,37 @@
         </div>
     </div>
 
-    <!-- Footer with NEW Vector Eagle Eye -->
+    <!-- Contact Feedback Submission Success Toast/Modal -->
+    <div id="contact-success-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeContactModal()"></div>
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full relative z-10 border border-teal-100 text-center shadow-2xl">
+            <div class="w-16 h-16 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6 border border-teal-200 animate-bounce">
+                <i class="fa-solid fa-comment-medical"></i>
+            </div>
+            <h3 class="font-display font-black text-2xl text-slate-800 mb-2">Message Logged!</h3>
+            <p class="text-sm text-slate-500 mb-6 leading-relaxed">Your message has been successfully structured. Click below to launch your email and send your query to the CSSC.</p>
+            
+            <a id="contact-mailto-link" href="#" class="block w-full py-4 bg-teal-600 hover:bg-teal-700 text-white font-black rounded-xl transition-all text-center shadow-md mb-3">
+                Send Email Now <i class="fa-solid fa-envelope-open"></i>
+            </a>
+            <button onclick="closeContactModal()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer with NEW Vector Flask & Bar Chart -->
     <footer class="bg-slate-900 text-slate-400 py-10 text-center border-t border-slate-800 mt-auto">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-center gap-3 mb-6">
-                <!-- Eagle Eye Footer Icon -->
+                <!-- Flask with Bar Chart Footer Icon -->
                 <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 overflow-hidden text-white">
                     <svg viewBox="0 0 100 100" fill="currentColor" class="w-5 h-5 text-white">
-                        <path d="M44,20 h12 v4 h-12 z M47,24 h6 v16 h-6 z M47,38 L25,75 A4,4 0 0,0 28,80 h44 A4,4 0 0,0 72,75 L53,38 z" />
-                        <path d="M30,70 Q50,67 70,70 L72,74 H28 z" opacity="0.4" />
-                        <path d="M15,75 C15,55 32,47 44,58 C38,61 33,67 32,75 Z" opacity="0.85" />
-                        <path d="M85,75 C85,55 68,47 56,58 C62,61 67,67 68,75 Z" opacity="0.85" />
+                        <path d="M36,18 h28 v6 h-28 z M44,24 h12 v14 h-12 z" />
+                        <path d="M44,34 L21,76 A5,5 0 0,0 25,82 h50 A5,5 0 0,0 79,76 L56,34 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+                        <rect x="33" y="62" width="7" height="15" rx="1" />
+                        <rect x="46" y="52" width="8" height="25" rx="1" />
+                        <rect x="60" y="58" width="7" height="19" rx="1" />
                     </svg>
                 </div>
                 <span class="font-display font-bold text-white tracking-widest">Ka-COSci Web</span>
@@ -1119,7 +1189,6 @@
             }
         }
 
-        // --- STREAMING_CHUNK: Processing email metadata compilation on submit... ---
         function handleSapSubmission(event) {
             event.preventDefault();
             
@@ -1141,16 +1210,15 @@ I am writing to formally request student assistance under the Ka-COSci Student A
 
 Full Name: ${name}
 Student Number: ${idNum}
-Science Program: ${program}
-Email Address: ${email}
+Degree Program: ${program}
+CLSU Email: ${email}
 
 -- WELFARE DETAILS --
 
 Requested Category: ${sapType}
-Narrative Justification:
-"${justification}"
+Narrative Justification: "${justification}"
 
--- MANDATORY ATTACHMENTS (Please ensure attachement of files to this email) --
+-- MANDATORY ATTACHMENTS (Please ensure attachment of physical files to this email) --
 
 1. Student Registration Form (Form 6): [Attached File: ${form6Name}]
 2. Student ID Card (Front/Back): [Attached File: ${studentIdName}]
@@ -1161,7 +1229,7 @@ By sending this email request, I confirm my explicit consent under the Data Priv
 Respectfully yours,
 ${name}`;
 
-            // Build deep-link mailto URL
+            // Build deep-link mailto URL with specified TO, CC, and SENDER CC
             const mailtoUrl = `mailto:cssc@clsu.edu.ph?cc=grevhen.quinton@clsu2.edu.ph,${email}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
             // Populate preview panel in the Email Dispatch Hub Modal
@@ -1198,6 +1266,52 @@ ${name}`;
             // Return user to top guidelines
             switchSubTab('sap', 'sap-services');
             navigate('sap');
+        }
+
+        // --- CONTACT / FEEDBACK LOGIC ---
+        function handleContactSubmission(event) {
+            event.preventDefault();
+
+            // Extract contact fields
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const subject = document.getElementById('contact-subject').value;
+            const category = document.getElementById('contact-category').value;
+            const message = document.getElementById('contact-message').value;
+
+            // Compile contact email
+            const contactSubject = `[Ka-COSci Web Contact] - ${category} - ${subject}`;
+            const contactBody = `Dear College of Science Student Council (CSSC),
+
+You have received a new message through the Ka-COSci Web Feedback portal:
+
+-- CONTACT DETAILS --
+
+Sender Name: ${name}
+Email Address: ${email}
+Category: ${category}
+
+-- MESSAGE --
+
+"${message}"
+
+--------------------------------------
+Sent via Ka-COSci Web Portal.`;
+
+            // Build mailto URL for direct send
+            const mailtoUrl = `mailto:cssc@clsu.edu.ph?cc=grevhen.quinton@clsu2.edu.ph,${email}&subject=${encodeURIComponent(contactSubject)}&body=${encodeURIComponent(contactBody)}`;
+
+            // Apply mailto to Success trigger button
+            document.getElementById('contact-mailto-link').href = mailtoUrl;
+
+            // Show Contact Success Modal
+            const modal = document.getElementById('contact-success-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeContactModal() {
+            document.getElementById('contact-success-modal').classList.add('hidden');
+            document.getElementById('contactForm').reset();
         }
 
         // Initialize on load
